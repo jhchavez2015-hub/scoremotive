@@ -1,7 +1,39 @@
 "use client";
 import { useEffect, useState } from "react";
 
+const content = {
+  en: {
+    pill: "Early Access Opening Soon",
+    h1a: "Know your score.",
+    h1b: "Own your future.",
+    sub: "Entiende tu crédito. Domina tu futuro.",
+    desc: "Free bilingual tools to analyze your FICO score, accelerate debt payoff, and build lasting credit — in English and Spanish.",
+    note: "No spam. No credit card. Free forever on launch.",
+    toolsBtn: "Try the Tools Free",
+    whatscoming: "What's coming",
+    follow: "Follow the launch",
+    disclaimer: "ScoreMotive is an educational and informational tool. It does not constitute professional financial, legal, or tax advice. FICO score results are estimates based on simplified models. Always consult a Certified Financial Planner (CFP) before making financial decisions. This site may receive compensation through affiliate links.",
+    footer: "© 2025 ScoreMotive · Educational use only",
+  },
+  es: {
+    pill: "Acceso Anticipado Próximamente",
+    h1a: "Conoce tu score.",
+    h1b: "Domina tu futuro.",
+    sub: "Know your score. Own your future.",
+    desc: "Herramientas bilingües gratuitas para analizar tu puntuación FICO, acelerar el pago de deudas y construir crédito duradero — en inglés y español.",
+    note: "Sin spam. Sin tarjeta. Gratis para siempre al lanzar.",
+    toolsBtn: "Probar las Herramientas →",
+    whatscoming: "Qué viene",
+    follow: "Sigue el lanzamiento",
+    disclaimer: "ScoreMotive es una herramienta educativa e informativa. No constituye asesoría financiera, legal ni fiscal profesional. Los resultados del FICO son estimaciones basadas en modelos simplificados. Consulta siempre a un CFP antes de tomar decisiones financieras. Este sitio puede recibir compensación por enlaces de afiliados.",
+    footer: "© 2025 ScoreMotive · Solo uso educativo",
+  }
+};
+
 export default function Home() {
+  const [lang, setLang] = useState<"en" | "es">("en");
+  const t = content[lang];
+  const toggleLang = () => setLang(lang === "en" ? "es" : "en");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -68,7 +100,12 @@ export default function Home() {
             </div>
             <span className="font-bold text-lg tracking-tight">ScoreMotive</span>
           </div>
-          <span className="text-[11px] font-medium text-[#f59e0b] bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.2)] px-3 py-1 rounded-full">⚡ Coming Soon</span>
+          <div className="flex items-center gap-2">
+            <button onClick={toggleLang} className="flex items-center gap-1.5 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.12] text-xs px-3 py-1.5 rounded-xl transition font-bold text-[#8892a4]">
+              🌐 {lang === 'es' ? 'EN' : 'ES'}
+            </button>
+            <span className="text-[11px] font-medium text-[#f59e0b] bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.2)] px-3 py-1 rounded-full">⚡ Coming Soon</span>
+          </div>
         </div>
       </header>
 
@@ -77,12 +114,12 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-[rgba(79,124,255,0.08)] border border-[rgba(79,124,255,0.2)] rounded-full px-4 py-1.5 text-xs font-medium text-[#7ba7ff] mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-[#06d6a0] animate-pulse" />
-            Early Access Opening Soon
+            {t.pill}
           </div>
 
           <h1 className="text-[clamp(42px,7vw,76px)] font-black leading-[1.05] tracking-[-2px] mb-3">
-            <span className="block text-[#f0f2f7]">Know your score.</span>
-            <span className="block bg-gradient-to-r from-[#4f7cff] via-[#7c3aed] to-[#06d6a0] bg-clip-text text-transparent">Own your future.</span>
+            <span className="block text-[#f0f2f7]">{t.h1a}</span>
+            <span className="block bg-gradient-to-r from-[#4f7cff] via-[#7c3aed] to-[#06d6a0] bg-clip-text text-transparent">{t.h1b}</span>
           </h1>
 
           <p className="text-[clamp(16px,2.5vw,22px)] text-[#8892a4] font-light mb-8">
@@ -90,7 +127,7 @@ export default function Home() {
           </p>
 
           <p className="text-[clamp(15px,2vw,18px)] text-[#8892a4] max-w-xl mx-auto mb-12 leading-relaxed font-light">
-            Free bilingual tools to analyze your FICO score, accelerate debt payoff, and build lasting credit — in English and Spanish.
+            {t.desc}
           </p>
 
           {/* Email Form */}
@@ -122,11 +159,11 @@ export default function Home() {
             <p className="text-xs text-[#f43f5e] mb-4">Something went wrong. Please try again.</p>
           )}
 
-          <p className="text-xs text-[#8892a4]">No spam. No credit card. Free forever on launch.</p>
+          <p className="text-xs text-[#8892a4]">{t.note}</p>
 
           <div className="mt-6">
             <a href="/tools" className="inline-flex items-center gap-2 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.12] hover:border-white/[0.2] text-[#f0f2f7] font-medium text-sm px-6 py-3 rounded-xl transition-all">
-              Try the Tools Free
+              {t.toolsBtn}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </a>
           </div>
@@ -146,7 +183,7 @@ export default function Home() {
       {/* Features */}
       <section className="relative z-10 pb-24 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-center text-[11px] uppercase tracking-[3px] text-[#8892a4] mb-12">What&apos;s coming</p>
+          <p className="text-center text-[11px] uppercase tracking-[3px] text-[#8892a4] mb-12">{t.whatscoming}</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               { icon: "📊", title: "Dual FICO Analyzer", desc: "Compare Traditional FICO 8/9 vs FICO 10T simultaneously. Understand exactly how lenders see you.", tag: "FICO 8 · FICO 9 · FICO 10T", color: "rgba(79,124,255,0.12)", tagColor: "#7ba7ff", tagBg: "rgba(79,124,255,0.1)" },
@@ -166,7 +203,7 @@ export default function Home() {
 
       {/* Social */}
       <section className="relative z-10 pb-24 px-6 text-center">
-        <p className="text-[11px] uppercase tracking-[3px] text-[#8892a4] mb-8">Follow the launch</p>
+        <p className="text-[11px] uppercase tracking-[3px] text-[#8892a4] mb-8">{t.follow}</p>
         <div className="flex justify-center gap-4 flex-wrap">
           <a href="https://instagram.com/scoremotive" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#0d1220] border border-white/[0.07] rounded-xl px-5 py-2.5 text-sm font-medium text-[#8892a4] hover:border-white/[0.12] hover:text-[#f0f2f7] transition-all">
             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
@@ -186,7 +223,7 @@ export default function Home() {
             ⚠️ Educational Tool
           </div>
           <p className="text-[11px] text-[#8892a4] leading-relaxed opacity-70">
-            ScoreMotive is an educational and informational tool. It does not constitute professional financial, legal, or tax advice. FICO score results are estimates based on simplified models. Always consult a Certified Financial Planner (CFP) before making financial decisions. This site may receive compensation through affiliate links.
+            {t.disclaimer}
           </p>
         </div>
       </div>
@@ -194,7 +231,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.07] py-6 px-6">
         <div className="max-w-5xl mx-auto flex items-center justify-between flex-wrap gap-4">
-          <span className="text-xs text-[#8892a4]">© 2025 ScoreMotive · Educational use only</span>
+          <span className="text-xs text-[#8892a4]">{t.footer}</span>
           <div className="flex gap-6">
             <a href="mailto:hola@scoremotive.com" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">Contact</a>
             <a href="/legal" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">Legal</a>
