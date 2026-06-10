@@ -124,6 +124,13 @@ export default function Home() {
 
           <p className="text-xs text-[#8892a4]">No spam. No credit card. Free forever on launch.</p>
 
+          <div className="mt-6">
+            <a href="/tools" className="inline-flex items-center gap-2 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.12] hover:border-white/[0.2] text-[#f0f2f7] font-medium text-sm px-6 py-3 rounded-xl transition-all">
+              Try the Tools Free
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+
           {/* Countdown */}
           <div className="flex justify-center gap-6 mt-16 mb-20">
             {["days","hours","minutes","seconds"].map((unit) => (
