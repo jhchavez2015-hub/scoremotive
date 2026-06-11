@@ -66,11 +66,11 @@ export default function Home() {
     setStatus("loading");
     try {
       const res = await fetch(
-        "https://api.beehiiv.com/v2/publications/pub_c2ddb362-9a7f-4b0d-833a-7c61f4e5da94/subscriptions",
+        "/api/subscribe",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, reactivate_existing: false, send_welcome_email: true }),
+          body: JSON.stringify({ email }),
         }
       );
       if (res.ok) {
