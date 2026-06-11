@@ -401,37 +401,42 @@ export default function ToolsPage() {
       {showDisclaimer && <DisclaimerModal lang={lang} onAccept={handleAcceptDisclaimer} />}
 
       <header className="border-b border-slate-800/70 bg-slate-950/95 sticky top-0 z-40 backdrop-blur-md">
-        <div className="disclaimer-badge text-center py-1.5 px-4">
-          <span className="text-[10px] text-amber-400/90 font-medium">
-            ⚠️ {lang === 'es' ? 'Herramienta educativa. No constituye asesoría financiera profesional.' : 'Educational tool. Does not constitute professional financial advice.'}
-          </span>
-        </div>
-        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-tr from-indigo-500 via-purple-500 to-violet-600 p-2 rounded-xl shadow-lg shadow-indigo-500/20">
-              <BarChart3 className="h-4 w-4 text-white" />
+        {/* Fila 1 — Logo + controles */}
+        <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="bg-gradient-to-tr from-indigo-500 via-purple-500 to-violet-600 p-1.5 rounded-lg shadow-lg shadow-indigo-500/20">
+              <BarChart3 className="h-3.5 w-3.5 text-white" />
             </div>
-            <div className="flex items-center gap-2">
-              <a href="/" className="font-bold text-base text-white tracking-tight hover:text-indigo-400 transition-colors">{t.title}</a>
-              <span className="text-[9px] font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 px-2 py-0.5 rounded-full">{t.version}</span>
+            <div className="flex items-center gap-1.5">
+              <a href="/" className="font-bold text-sm text-white tracking-tight hover:text-indigo-400 transition-colors">{t.title}</a>
+              <span className="text-[9px] font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 px-1.5 py-0.5 rounded-full hidden sm:inline">{t.version}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 flex-wrap justify-end">
-            <nav className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
-              <button onClick={() => setActiveTab('score')} className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'score' ? 'tab-active text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}`}>
-                <CreditCard className="h-3.5 w-3.5" /> {t.tabFico}
-              </button>
-              <button onClick={() => setActiveTab('deuda')} className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'deuda' ? 'tab-active text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}`}>
-                <TrendingDown className="h-3.5 w-3.5" /> {t.tabDeudas}
-              </button>
-            </nav>
-            <button onClick={() => setShowDisclaimer(true)} className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 text-[10px] px-2.5 py-1.5 rounded-xl transition font-bold">
+          <div className="flex items-center gap-2">
+            <button onClick={() => setShowDisclaimer(true)} className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 text-[10px] px-2 py-1.5 rounded-xl transition font-bold">
               <ShieldAlert className="h-3 w-3" /><span className="hidden sm:inline">Aviso</span>
             </button>
-            <button onClick={toggleLanguage} className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs px-3 py-1.5 rounded-xl transition font-bold text-slate-300">
+            <button onClick={toggleLanguage} className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs px-2.5 py-1.5 rounded-xl transition font-bold text-slate-300">
               <Globe className="h-3.5 w-3.5 text-indigo-400" />{lang === 'es' ? 'EN' : 'ES'}
             </button>
           </div>
+        </div>
+        {/* Fila 2 — Navegación de tabs */}
+        <div className="max-w-6xl mx-auto px-4 pb-2 flex items-center justify-center">
+          <nav className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 w-full max-w-sm">
+            <button onClick={() => setActiveTab('score')} className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'score' ? 'tab-active text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}`}>
+              <CreditCard className="h-3.5 w-3.5" /> {t.tabFico}
+            </button>
+            <button onClick={() => setActiveTab('deuda')} className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'deuda' ? 'tab-active text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}`}>
+              <TrendingDown className="h-3.5 w-3.5" /> {t.tabDeudas}
+            </button>
+          </nav>
+        </div>
+        {/* Barra disclaimer */}
+        <div className="disclaimer-badge text-center py-1 px-4">
+          <span className="text-[10px] text-amber-400/90 font-medium">
+            ⚠️ {lang === 'es' ? 'Herramienta educativa. No constituye asesoría financiera profesional.' : 'Educational tool. Does not constitute professional financial advice.'}
+          </span>
         </div>
       </header>
 
