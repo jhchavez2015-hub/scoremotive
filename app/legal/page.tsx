@@ -31,7 +31,7 @@ export default function LegalPage() {
           <h1 className="text-4xl font-black tracking-[-1px] mt-2 mb-4">
             {isEs ? "Legal y Política de Privacidad" : "Legal & Privacy Policy"}
           </h1>
-          <p className="text-[#8892a4] text-sm">{isEs ? "Última actualización: Junio 2025" : "Last updated: June 2025"}</p>
+          <p className="text-[#8892a4] text-sm">{isEs ? "Última actualización: Junio 2026" : "Last updated: June 2026"}</p>
         </div>
 
         <div className="space-y-12">
@@ -193,7 +193,7 @@ export default function LegalPage() {
       {/* Footer */}
       <footer className="border-t border-white/[0.07] py-6 px-6 mt-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between flex-wrap gap-4">
-          <span className="text-xs text-[#8892a4]">© 2025 ScoreMotive · {isEs ? "Solo uso educativo" : "Educational use only"}</span>
+          <span className="text-xs text-[#8892a4]">© 2026 ScoreMotive · {isEs ? "Solo uso educativo" : "Educational use only"}</span>
           <div className="flex gap-6">
             <a href="/" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{isEs ? "Inicio" : "Home"}</a>
             <a href="/about" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{isEs ? "Nosotros" : "About"}</a>

@@ -8,7 +8,7 @@ const posts = [
     titleEs: "FICO 8 vs FICO 10T: Cuál es la Diferencia y Por Qué Importa",
     descEn: "Most Americans don't know there are multiple FICO models. The difference between FICO 8 and FICO 10T can mean thousands of dollars on your next loan.",
     descEs: "La mayoría de los americanos no saben que existen múltiples modelos FICO. La diferencia entre FICO 8 y FICO 10T puede significar miles de dólares en tu próximo préstamo.",
-    date: "June 2025",
+    date: "June 2026",
     readTime: "6 min",
     tag: "FICO Score",
     tagColor: "rgba(79,124,255,0.1)",
@@ -20,7 +20,7 @@ const posts = [
     titleEs: "Avalancha vs Bola de Nieve: Cuál Liquida Deudas Más Rápido",
     descEn: "Two popular debt payoff strategies — but only one saves you the most money. Here's the math behind both methods and which one wins.",
     descEs: "Dos estrategias populares para pagar deudas — pero solo una te ahorra más dinero. Aquí está la matemática detrás de ambos métodos y cuál gana.",
-    date: "June 2025",
+    date: "June 2026",
     readTime: "5 min",
     tag: "Debt",
     tagColor: "rgba(6,214,160,0.1)",
@@ -32,7 +32,7 @@ const posts = [
     titleEs: "Cómo Subir tu Credit Score 100 Puntos en 6 Meses",
     descEn: "A step-by-step action plan based on how FICO actually calculates your score. No gimmicks — just the moves that work.",
     descEs: "Un plan de acción paso a paso basado en cómo FICO realmente calcula tu puntaje. Sin trucos — solo las acciones que funcionan.",
-    date: "June 2025",
+    date: "June 2026",
     readTime: "7 min",
     tag: "Credit Score",
     tagColor: "rgba(245,158,11,0.1)",
@@ -135,7 +135,7 @@ export default function BlogPage() {
       {/* Footer */}
       <footer className="border-t border-white/[0.07] py-6 px-6 mt-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between flex-wrap gap-4">
-          <span className="text-xs text-[#8892a4]">© 2025 ScoreMotive · {isEs ? "Solo uso educativo" : "Educational use only"}</span>
+          <span className="text-xs text-[#8892a4]">© 2026 ScoreMotive · {isEs ? "Solo uso educativo" : "Educational use only"}</span>
           <div className="flex gap-6">
             <a href="/" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{isEs ? "Inicio" : "Home"}</a>
             <a href="/about" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{isEs ? "Nosotros" : "About"}</a>

@@ -171,7 +171,7 @@ export default function AboutPage() {
       {/* Footer */}
       <footer className="border-t border-white/[0.07] py-6 px-6 mt-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between flex-wrap gap-4">
-          <span className="text-xs text-[#8892a4]">© 2025 ScoreMotive · {isEs ? "Solo uso educativo" : "Educational use only"}</span>
+          <span className="text-xs text-[#8892a4]">© 2026 ScoreMotive · {isEs ? "Solo uso educativo" : "Educational use only"}</span>
           <div className="flex gap-6">
             <a href="/" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{isEs ? "Inicio" : "Home"}</a>
             <a href="/legal" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">Legal</a>

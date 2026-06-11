@@ -13,7 +13,7 @@ const content = {
     whatscoming: "What's coming",
     follow: "Follow the launch",
     disclaimer: "ScoreMotive is an educational and informational tool. It does not constitute professional financial, legal, or tax advice. FICO score results are estimates based on simplified models. Always consult a Certified Financial Planner (CFP) before making financial decisions. This site may receive compensation through affiliate links.",
-    footer: "© 2025 ScoreMotive · Educational use only",
+    footer: "© 2026 ScoreMotive · Educational use only",
   },
   es: {
     pill: "Acceso Anticipado Próximamente",
@@ -26,7 +26,7 @@ const content = {
     whatscoming: "Qué viene",
     follow: "Sigue el lanzamiento",
     disclaimer: "ScoreMotive es una herramienta educativa e informativa. No constituye asesoría financiera, legal ni fiscal profesional. Los resultados del FICO son estimaciones basadas en modelos simplificados. Consulta siempre a un CFP antes de tomar decisiones financieras. Este sitio puede recibir compensación por enlaces de afiliados.",
-    footer: "© 2025 ScoreMotive · Solo uso educativo",
+    footer: "© 2026 ScoreMotive · Solo uso educativo",
   }
 };
 
@@ -106,11 +106,9 @@ export default function Home() {
             </button>
             <span className="text-[11px] font-medium text-[#f59e0b] bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.2)] px-3 py-1 rounded-full">⚡ Coming Soon</span>
           </div>
-          <nav className="hidden md:flex items-center gap-1">
-            <a href="/tools" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Herramientas' : 'Tools'}</a>
-            <a href="/about" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Nosotros' : 'About'}</a>
-            <a href="/legal" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">Legal</a>
-            <a href="/blog" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Blog' : 'Blog'}</a>
+          <nav className="flex items-center gap-1">
+            <a href="/tools" className="text-[11px] text-[#8892a4] hover:text-[#f0f2f7] px-2 py-1 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Herramientas' : 'Tools'}</a>
+            <a href="/blog" className="text-[11px] text-[#8892a4] hover:text-[#f0f2f7] px-2 py-1 rounded-lg hover:bg-white/[0.05] transition-all">Blog</a>
           </nav>
           <div className="flex items-center gap-2" style={{display:'none'}}>
           </div>

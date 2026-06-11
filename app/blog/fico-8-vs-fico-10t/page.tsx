@@ -28,7 +28,7 @@ export default function FicoArticlePage() {
             <span className="text-[10px] font-medium uppercase tracking-[1px] px-2.5 py-1 rounded-full bg-[rgba(79,124,255,0.1)] text-[#7ba7ff]">
               FICO Score
             </span>
-            <span className="text-[11px] text-[#8892a4]">June 2025 · 6 {isEs ? "min lectura" : "min read"}</span>
+            <span className="text-[11px] text-[#8892a4]">June 2026 · 6 {isEs ? "min lectura" : "min read"}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-[-1px] leading-tight mb-4">
             {isEs
@@ -288,7 +288,7 @@ export default function FicoArticlePage() {
       {/* Footer */}
       <footer className="border-t border-white/[0.07] py-6 px-6 mt-8">
         <div className="max-w-3xl mx-auto flex items-center justify-between flex-wrap gap-4">
-          <span className="text-xs text-[#8892a4]">© 2025 ScoreMotive</span>
+          <span className="text-xs text-[#8892a4]">© 2026 ScoreMotive</span>
           <div className="flex gap-6">
             <a href="/blog" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">Blog</a>
             <a href="/tools" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{isEs ? "Herramientas" : "Tools"}</a>
