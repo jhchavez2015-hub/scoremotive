@@ -106,6 +106,14 @@ export default function Home() {
             </button>
             <span className="text-[11px] font-medium text-[#f59e0b] bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.2)] px-3 py-1 rounded-full">⚡ Coming Soon</span>
           </div>
+          <nav className="hidden md:flex items-center gap-1">
+            <a href="/tools" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Herramientas' : 'Tools'}</a>
+            <a href="/about" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Nosotros' : 'About'}</a>
+            <a href="/legal" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">Legal</a>
+            <a href="/blog" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Blog' : 'Blog'}</a>
+          </nav>
+          <div className="flex items-center gap-2" style={{display:'none'}}>
+          </div>
         </div>
       </header>
 
