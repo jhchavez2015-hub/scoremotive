@@ -416,7 +416,7 @@ export default function ToolsPage() {
               <span className="text-[9px] font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 px-2 py-0.5 rounded-full">{t.version}</span>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-wrap justify-end">
             <nav className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
               <button onClick={() => setActiveTab('score')} className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'score' ? 'tab-active text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}`}>
                 <CreditCard className="h-3.5 w-3.5" /> {t.tabFico}
