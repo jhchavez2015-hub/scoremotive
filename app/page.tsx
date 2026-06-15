@@ -159,7 +159,7 @@ export default function Home() {
          {/* Stats */}
           <div className="flex justify-center gap-6 mt-16 mb-20">
             {[
-              { num: "3", label: lang === 'es' ? "Herramientas Gratis" : "Free Tools" },
+              { num: "2", label: lang === 'es' ? "Herramientas Gratis" : "Free Tools" },
               { num: "2", label: lang === 'es' ? "Idiomas" : "Languages" },
               { num: "3", label: lang === 'es' ? "Guías Publicadas" : "Published Guides" },
             ].map((stat) => (
