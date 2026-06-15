@@ -348,6 +348,14 @@ export default function ToolsPage() {
   const t = translations[lang];
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [activeTab, setActiveTab] = useState('score');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      if (tab === 'deuda') setActiveTab('deuda');
+    }
+  }, []);
   const [scoreAnswers, setScoreAnswers] = useState({ historial: '', utilizacion: 'auto', antiguedad: '', tipos: '', consultas: '' });
   const [reporteScore, setReporteScore] = useState<ScoreReport | null>(null);
   const [debts, setDebts] = useState<Debt[]>([

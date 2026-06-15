@@ -322,7 +322,7 @@ export default function DebtArticlePage() {
               ? "Usa nuestro Acelerador de Deudas gratuito — ingresa tus deudas y ve exactamente cuánto interés ahorras y cuánto tiempo reduces."
               : "Use our free Debt Accelerator — enter your debts and see exactly how much interest you save and how much time you cut."}
           </p>
-          <a href="/tools" className="inline-flex items-center gap-2 bg-gradient-to-r from-[#06d6a0] to-[#4f7cff] text-white px-8 py-3 rounded-xl text-sm font-medium hover:opacity-90 transition-all">
+          <a href="/tools?tab=deuda" className="inline-flex items-center gap-2 bg-gradient-to-r from-[#06d6a0] to-[#4f7cff] text-white px-8 py-3 rounded-xl text-sm font-medium hover:opacity-90 transition-all">
             {isEs ? "Probar el Acelerador de Deudas" : "Try the Debt Accelerator"}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
