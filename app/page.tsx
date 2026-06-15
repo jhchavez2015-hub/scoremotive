@@ -139,7 +139,7 @@ export default function Home() {
           {/* Email Form */}
           {status === "success" ? (
             <div className="max-w-md mx-auto mb-6 bg-[rgba(6,214,160,0.08)] border border-[rgba(6,214,160,0.2)] rounded-xl px-6 py-4 text-sm text-[#06d6a0]">
-              ✓ You&apos;re on the list! Check your inbox to confirm.
+              {lang === 'es' ? '✓ ¡Ya estás en la lista! Te avisaremos cuando lancemos.' : '✓ You\'re on the list! We\'ll notify you when we launch.'}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex gap-3 max-w-md mx-auto mb-6">
