@@ -38,25 +38,7 @@ export default function Home() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   useEffect(() => {
-    const launch = new Date();
-    launch.setDate(launch.getDate() + 45);
-    function updateCountdown() {
-      const diff = launch.getTime() - new Date().getTime();
-      if (diff <= 0) return;
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      const pad = (n: number) => String(n).padStart(2, "0");
-      const el = (id: string) => document.getElementById(id);
-      if (el("days")) el("days")!.textContent = pad(d);
-      if (el("hours")) el("hours")!.textContent = pad(h);
-      if (el("minutes")) el("minutes")!.textContent = pad(m);
-      if (el("seconds")) el("seconds")!.textContent = pad(s);
-    }
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-    return () => clearInterval(timer);
+    
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -174,12 +156,16 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Countdown */}
+         {/* Stats */}
           <div className="flex justify-center gap-6 mt-16 mb-20">
-            {["days","hours","minutes","seconds"].map((unit) => (
-              <div key={unit} className="text-center min-w-[72px]">
-                <span id={unit} className="block text-[42px] font-black text-[#f0f2f7] leading-none tracking-[-2px]">00</span>
-                <span className="block text-[11px] uppercase tracking-[2px] text-[#8892a4] mt-1.5">{unit}</span>
+            {[
+              { num: "3", label: lang === 'es' ? "Herramientas Gratis" : "Free Tools" },
+              { num: "2", label: lang === 'es' ? "Idiomas" : "Languages" },
+              { num: "3", label: lang === 'es' ? "Guías Publicadas" : "Published Guides" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center min-w-[72px]">
+                <span className="block text-[42px] font-black text-[#f0f2f7] leading-none tracking-[-2px]">{stat.num}</span>
+                <span className="block text-[11px] uppercase tracking-[2px] text-[#8892a4] mt-1.5">{stat.label}</span>
               </div>
             ))}
           </div>
