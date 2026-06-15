@@ -104,7 +104,7 @@ export default function Home() {
             <button onClick={toggleLang} className="flex items-center gap-1.5 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.12] text-xs px-3 py-1.5 rounded-xl transition font-bold text-[#8892a4]">
               🌐 {lang === 'es' ? 'EN' : 'ES'}
             </button>
-            <span className="text-[11px] font-medium text-[#f59e0b] bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.2)] px-3 py-1 rounded-full">⚡ Coming Soon</span>
+            
           </div>
           <nav className="flex items-center gap-1">
             <a href="/tools" className="text-[11px] text-[#8892a4] hover:text-[#f0f2f7] px-2 py-1 rounded-lg hover:bg-white/[0.05] transition-all">{lang === 'es' ? 'Herramientas' : 'Tools'}</a>
