@@ -38,6 +38,18 @@ const posts = [
     tagColor: "rgba(245,158,11,0.1)",
     tagText: "#f59e0b",
   },
+  {
+    slug: "rent-utilities-credit-score",
+    titleEn: "How Your Rent and Utility Bills Can Raise Your Credit Score",
+    titleEs: "Cómo tu Renta y Servicios Pueden Subir tu Credit Score",
+    descEn: "For decades, paying rent on time didn't count toward your credit. That's changing — and it could be your most powerful financial advantage.",
+    descEs: "Por décadas, pagar la renta puntualmente no contaba para tu crédito. Eso está cambiando — y puede ser tu ventaja más poderosa.",
+    date: "June 2026",
+    readTime: "6 min",
+    tag: "Credit Score",
+    tagColor: "rgba(79,124,255,0.1)",
+    tagText: "#7ba7ff",
+  },
 ];
 
 export default function BlogPage() {
