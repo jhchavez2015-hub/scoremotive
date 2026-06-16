@@ -50,6 +50,18 @@ const posts = [
     tagColor: "rgba(79,124,255,0.1)",
     tagText: "#7ba7ff",
   },
+  {
+    slug: "rent-reporting-platforms-2026",
+    titleEn: "The 10 Best Platforms to Report Rent and Utilities to Credit Bureaus in 2026",
+    titleEs: "Las 10 Mejores Plataformas para Reportar Renta y Servicios al Buró de Crédito en 2026",
+    descEn: "We compare every platform available in the US — what they cost, what they report, and why some are worth paying for.",
+    descEs: "Comparamos cada plataforma disponible en USA — cuánto cuestan, qué reportan y por qué algunas vale la pena pagar.",
+    date: "June 2026",
+    readTime: "8 min",
+    tag: "Credit Score",
+    tagColor: "rgba(79,124,255,0.1)",
+    tagText: "#7ba7ff",
+  },
 ];
 
 export default function BlogPage() {
