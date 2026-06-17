@@ -30,6 +30,8 @@ const translations: Record<string, Record<string, string>> = {
     lblMonto: "Monto ($)", lblInteres: "Interés (% APR)", lblPagoMin: "Pago Mínimo ($)",
     lblInyeccionMensual: "Inyección de Pago Extra Mensual",
     lblInyeccionUnica: "Inyección de Pago Único (Sola vez)",
+    lblPagosLiberados: "Aplicar pagos mínimos liberados a la siguiente deuda",
+    lblPagosLiberadosDesc: "Cuando una deuda se liquida, su pago mínimo se suma automáticamente para atacar la siguiente.",
     btnCalcularDeudas: "Calcular Estrategia de Amortización", btnExportar: "Exportar Reporte",
     alertaAmortizacion: "¡Peligro de Amortización Negativa!",
     alertaAmortizacionDesc: "El pago mínimo ingresado es demasiado bajo en alguna de tus cuentas.",
@@ -80,6 +82,8 @@ const translations: Record<string, Record<string, string>> = {
     lblMonto: "Amount ($)", lblInteres: "Interest (% APR)", lblPagoMin: "Min Payment ($)",
     lblInyeccionMensual: "Monthly Extra Payment Injection",
     lblInyeccionUnica: "Lump-Sum Single Injection",
+    lblPagosLiberados: "Apply freed minimum payments to next debt",
+    lblPagosLiberadosDesc: "When a debt is paid off, its minimum payment is added to attack the next one.",
     btnCalcularDeudas: "Calculate Amortization Strategy", btnExportar: "Export Report",
     alertaAmortizacion: "Negative Amortization Hazard!",
     alertaAmortizacionDesc: "The minimum payment entered is too low on one or more accounts.",
@@ -363,6 +367,7 @@ export default function ToolsPage() {
     { id: 2, nombre: 'Business Line', balance: '12000', interesAnual: '14', pagoMensual: '350' }
   ]);
   const [globalPagoExtra, setGlobalPagoExtra] = useState('200');
+  const [aplicarPagosLiberados, setAplicarPagosLiberados] = useState(true);
   const [pagoUnicoSolaVez, setPagoUnicoSolaVez] = useState('1500');
   const [debtResult, setDebtResult] = useState<DebtResult | null>(null);
   const [hayAmortizacionNegativa, setHayAmortizacionNegativa] = useState(false);
@@ -489,12 +494,15 @@ export default function ToolsPage() {
     const ordenAvalanche = [...debts].filter(d => parseFloat(d.balance) > 0).sort((a, b) => parseFloat(b.interesAnual) - parseFloat(a.interesAnual)).map(d => d.nombre);
     let activeAce = debts.map(d => ({ nombre: d.nombre, balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0).sort((a, b) => b.r - a.r);
     let mesesAcelerado = 0, totalInteresesAcelerado = 0;
+    let pagosLiberadosAce = 0;
     while (activeAce.length > 0 && mesesAcelerado < 360) {
       mesesAcelerado++;
-      let bolsa = inyeccionMensualFija + (mesesAcelerado === 1 ? pagoUnicoDisponible : 0);
+      let bolsa = inyeccionMensualFija + pagosLiberadosAce + (mesesAcelerado === 1 ? pagoUnicoDisponible : 0);
       activeAce.forEach(d => { const im = d.balance * d.r; totalInteresesAcelerado += im; d.balance += im; });
       activeAce.forEach(d => { const p = Math.min(d.pmt, d.balance); d.balance -= p; });
       for (const d of activeAce) { if (d.balance > 0 && bolsa > 0) { const extra = Math.min(bolsa, d.balance); d.balance -= extra; bolsa -= extra; } }
+      const eliminadasAce = activeAce.filter(d => d.balance <= 0.01);
+      if (aplicarPagosLiberados) pagosLiberadosAce += eliminadasAce.reduce((sum, d) => sum + d.pmt, 0);
       activeAce = activeAce.filter(d => d.balance > 0.01);
     }
 
@@ -502,12 +510,15 @@ export default function ToolsPage() {
     const ordenSnowball = [...debts].filter(d => parseFloat(d.balance) > 0).sort((a, b) => parseFloat(a.balance) - parseFloat(b.balance)).map(d => d.nombre);
     let activeSnow = debts.map(d => ({ nombre: d.nombre, balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0).sort((a, b) => a.balance - b.balance);
     let mesesSnowball = 0, totalInteresesSnowball = 0;
+    let pagosLiberadosSnow = 0;
     while (activeSnow.length > 0 && mesesSnowball < 360) {
       mesesSnowball++;
-      let bolsa = inyeccionMensualFija + (mesesSnowball === 1 ? pagoUnicoDisponible : 0);
+      let bolsa = inyeccionMensualFija + pagosLiberadosSnow + (mesesSnowball === 1 ? pagoUnicoDisponible : 0);
       activeSnow.forEach(d => { const im = d.balance * d.r; totalInteresesSnowball += im; d.balance += im; });
       activeSnow.forEach(d => { const p = Math.min(d.pmt, d.balance); d.balance -= p; });
       for (const d of activeSnow) { if (d.balance > 0 && bolsa > 0) { const extra = Math.min(bolsa, d.balance); d.balance -= extra; bolsa -= extra; } }
+      const eliminadasSnow = activeSnow.filter(d => d.balance <= 0.01);
+      if (aplicarPagosLiberados) pagosLiberadosSnow += eliminadasSnow.reduce((sum, d) => sum + d.pmt, 0);
       activeSnow = activeSnow.filter(d => d.balance > 0.01);
     }
 
@@ -744,6 +755,23 @@ export default function ToolsPage() {
                   <div>
                     <label className="block text-xs font-bold text-emerald-400 mb-1.5 flex items-center gap-1.5"><Zap className="h-3.5 w-3.5" />{t.lblInyeccionUnica}</label>
                     <input type="text" value={pagoUnicoSolaVez} onChange={(e) => setPagoUnicoSolaVez(e.target.value.replace(/[^0-9.]/g, ''))} className="input-field w-full rounded-xl px-3 py-2 text-xs font-bold text-emerald-400" />
+                  </div>
+
+                  {/* Checkbox pagos liberados */}
+                  <div className="flex items-start gap-3 pt-1">
+                    <input
+                      type="checkbox"
+                      id="pagosLiberados"
+                      checked={aplicarPagosLiberados}
+                      onChange={(e) => setAplicarPagosLiberados(e.target.checked)}
+                      className="mt-0.5 accent-indigo-500 w-4 h-4 flex-shrink-0"
+                    />
+                    <div>
+                      <label htmlFor="pagosLiberados" className="text-xs font-bold text-slate-300 cursor-pointer">
+                        {t.lblPagosLiberados}
+                      </label>
+                      <p className="text-[10px] text-slate-500 mt-0.5">{t.lblPagosLiberadosDesc}</p>
+                    </div>
                   </div>
                 </div>
 
