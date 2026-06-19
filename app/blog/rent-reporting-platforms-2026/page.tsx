@@ -116,21 +116,22 @@ export default function PlatformsArticlePage() {
     },
     {
       name: "WalletHub",
+      link: "https://www.kqzyfj.com/click-101805316-17264776",
       burós: "TransUnion",
       renta: true,
       servicios: true,
-      precio: isEs ? "Gratis" : "Free",
+      precio: isEs ? "Gratis / $6.49/mes (Premium)" : "Free / $6.49/mo (Premium)",
       afiliado: true,
-      destacado: isEs ? "Gratis con análisis de crédito personalizado incluido" : "Free with personalized credit analysis included",
+      destacado: isEs ? "Plan gratuito sólido — Premium agrega protección de identidad" : "Solid free plan — Premium adds identity protection",
       color: "#4f7cff",
       bg: "rgba(79,124,255,0.05)",
       border: "rgba(79,124,255,0.15)",
-      descEs: "WalletHub reporta renta y servicios a TransUnion de forma gratuita e incluye herramientas de análisis de crédito y recomendaciones personalizadas para mejorar tu puntaje.",
-      descEn: "WalletHub reports rent and utilities to TransUnion for free and includes credit analysis tools and personalized recommendations to improve your score.",
-      proEs: ["Completamente gratis", "Reporta renta y servicios", "Análisis de crédito personalizado incluido", "Sin cargos ocultos"],
-      proEn: ["Completely free", "Reports rent and utilities", "Personalized credit analysis included", "No hidden fees"],
-      contraEs: ["Solo reporta a TransUnion — no a Equifax ni Experian", "Cobertura limitada de burós"],
-      contraEn: ["Only reports to TransUnion — not Equifax or Experian", "Limited bureau coverage"],
+      descEs: "WalletHub reporta renta y servicios a TransUnion gratis en su plan Basic, e incluye tu score VantageScore 3.0, reporte de crédito y análisis personalizado. El plan Premium ($6.49/mes) agrega bloqueo de crédito, protección de identidad y monitoreo de la dark web.",
+      descEn: "WalletHub reports rent and utilities to TransUnion for free on the Basic plan, including your VantageScore 3.0, credit report, and personalized analysis. The Premium plan ($6.49/mo) adds credit lock, identity protection, and dark web monitoring.",
+      proEs: ["Plan Basic completamente gratis", "Reporta renta y servicios", "Análisis de crédito personalizado incluido", "Premium agrega protección de identidad por $6.49/mes"],
+      proEn: ["Basic plan completely free", "Reports rent and utilities", "Personalized credit analysis included", "Premium adds identity protection for $6.49/mo"],
+      contraEs: ["Solo reporta a TransUnion — no a Equifax ni Experian", "Funciones avanzadas requieren plan de pago"],
+      contraEn: ["Only reports to TransUnion — not Equifax or Experian", "Advanced features require paid plan"],
     },
     {
       name: "LevelCredit",
@@ -282,7 +283,11 @@ export default function PlatformsArticlePage() {
                   <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="font-black text-[#f0f2f7] text-lg">#{idx + 1} {p.name}</span>
+                        <span className="font-black text-[#f0f2f7] text-lg">
+                          #{idx + 1} {p.link ? (
+                            <a href={p.link} target="_blank" rel="noopener noreferrer sponsored" className="underline hover:text-[#4f7cff] transition-colors">{p.name}</a>
+                          ) : p.name}
+                        </span>
 
                       </div>
                       <p className="text-[11px] font-medium" style={{ color: p.color }}>{p.destacado}</p>
@@ -340,9 +345,14 @@ export default function PlatformsArticlePage() {
                   </div>
 
                   {/* Affiliate placeholder */}
-                  {p.afiliado && (
+                  {p.link ? (
                     <div className="mt-4 pt-3 border-t border-white/[0.05]">
-                      {/* AFFILIATE_LINK_PLACEHOLDER: {p.name} */}
+                      <a href={p.link} target="_blank" rel="noopener noreferrer sponsored" className="inline-flex items-center gap-1.5 text-xs font-bold" style={{ color: p.color }}>
+                        {isEs ? `Visitar ${p.name} →` : `Visit ${p.name} →`}
+                      </a>
+                    </div>
+                  ) : p.afiliado && (
+                    <div className="mt-4 pt-3 border-t border-white/[0.05]">
                       <span className="text-[10px] text-[#8892a4] opacity-50">
                         {isEs ? "→ Enlace de referido próximamente" : "→ Referral link coming soon"}
                       </span>
