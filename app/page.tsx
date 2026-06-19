@@ -138,7 +138,7 @@ export default function Home() {
                 disabled={status === "loading"}
                 className="bg-gradient-to-r from-[#4f7cff] to-[#7c3aed] text-white font-medium text-sm px-6 py-3.5 rounded-xl whitespace-nowrap hover:opacity-90 hover:-translate-y-[1px] active:translate-y-0 transition-all disabled:opacity-60"
               >
-                {status === "loading" ? "..." : "Notify Me"}
+                {status === "loading" ? "..." : "Join Our Newsletter"}
               </button>
             </form>
           )}
