@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const content = {
   en: {
@@ -9,6 +9,9 @@ const content = {
     sub: "Entiende tu crédito. Domina tu futuro.",
     desc: "Free bilingual tools to analyze your FICO score, accelerate debt payoff, and build lasting credit — in English and Spanish.",
     note: "100% Free. No credit card required.",
+emailPlaceholder: "Enter your email address",
+joinBtn: "Join Our Newsletter",
+errorMsg: "Something went wrong. Please try again.",
     toolsBtn: "Try the Tools Free",
     whatscoming: "What we offer",
     follow: "Follow us",
@@ -22,6 +25,9 @@ const content = {
     sub: "Know your score. Own your future.",
     desc: "Herramientas bilingües gratuitas para analizar tu puntuación FICO, acelerar el pago de deudas y construir crédito duradero — en inglés y español.",
     note: "100% Gratis. Sin tarjeta de crédito.",
+emailPlaceholder: "Ingresa tu correo electrónico",
+joinBtn: "Únete a Nuestro Boletín",
+errorMsg: "Algo salió mal. Intenta de nuevo.",
     toolsBtn: "Probar las Herramientas →",
     whatscoming: "Lo que ofrecemos",
     follow: "Síguenos",
@@ -37,9 +43,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  useEffect(() => {
-    
-  }, []);
+  
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -82,17 +86,14 @@ export default function Home() {
             </div>
             <span className="font-bold text-lg tracking-tight">ScoreMotive</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-2">
+              <a href="/tools" className="text-[11px] font-bold text-[#7ba7ff] bg-[rgba(79,124,255,0.1)] hover:bg-[rgba(79,124,255,0.2)] border border-[rgba(79,124,255,0.25)] px-3 py-1.5 rounded-lg transition-all">{lang === 'es' ? 'Herramientas' : 'Tools'}</a>
+              <a href="/blog" className="text-[11px] font-bold text-[#a78bfa] bg-[rgba(124,58,237,0.1)] hover:bg-[rgba(124,58,237,0.2)] border border-[rgba(124,58,237,0.25)] px-3 py-1.5 rounded-lg transition-all">Blog</a>
+            </nav>
             <button onClick={toggleLang} className="flex items-center gap-1.5 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.12] text-xs px-3 py-1.5 rounded-xl transition font-bold text-[#8892a4]">
               🌐 {lang === 'es' ? 'EN' : 'ES'}
             </button>
-            
-          </div>
-          <nav className="flex items-center gap-2">
-            <a href="/tools" className="text-[11px] font-bold text-[#7ba7ff] bg-[rgba(79,124,255,0.1)] hover:bg-[rgba(79,124,255,0.2)] border border-[rgba(79,124,255,0.25)] px-3 py-1.5 rounded-lg transition-all">{lang === 'es' ? 'Herramientas' : 'Tools'}</a>
-            <a href="/blog" className="text-[11px] font-bold text-[#a78bfa] bg-[rgba(124,58,237,0.1)] hover:bg-[rgba(124,58,237,0.2)] border border-[rgba(124,58,237,0.25)] px-3 py-1.5 rounded-lg transition-all">Blog</a>
-          </nav>
-          <div className="flex items-center gap-2" style={{display:'none'}}>
           </div>
         </div>
       </header>
@@ -129,7 +130,7 @@ export default function Home() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
+                placeholder={t.emailPlaceholder}
                 required
                 className="flex-1 bg-white/[0.05] border border-white/[0.12] rounded-xl px-4 py-3.5 text-sm text-[#f0f2f7] placeholder-[#8892a4] outline-none focus:border-[#4f7cff] focus:bg-[rgba(79,124,255,0.05)] transition-all"
               />
@@ -138,13 +139,13 @@ export default function Home() {
                 disabled={status === "loading"}
                 className="bg-gradient-to-r from-[#4f7cff] to-[#7c3aed] text-white font-medium text-sm px-6 py-3.5 rounded-xl whitespace-nowrap hover:opacity-90 hover:-translate-y-[1px] active:translate-y-0 transition-all disabled:opacity-60"
               >
-                {status === "loading" ? "..." : "Join Our Newsletter"}
+                {status === "loading" ? "..." : t.joinBtn}
               </button>
             </form>
           )}
 
           {status === "error" && (
-            <p className="text-xs text-[#f43f5e] mb-4">Something went wrong. Please try again.</p>
+            <p className="text-xs text-[#f43f5e] mb-4">{t.errorMsg}</p>
           )}
 
           <p className="text-xs text-[#8892a4]">{t.note}</p>
@@ -161,15 +162,15 @@ export default function Home() {
           <p className="text-center text-[11px] uppercase tracking-[3px] text-[#8892a4] mb-12">{t.whatscoming}</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { icon: "📊", title: "Dual FICO Analyzer", desc: "Compare Traditional FICO 8/9 vs FICO 10T simultaneously. Understand exactly how lenders see you.", tag: "FICO 8 · FICO 9 · FICO 10T", color: "rgba(79,124,255,0.12)", tagColor: "#7ba7ff", tagBg: "rgba(79,124,255,0.1)", href: "/tools" },
-              { icon: "💳", title: "Debt Accelerator", desc: "Avalanche strategy powered by real amortization math. See how much interest you save with one extra payment.", tag: "Avalanche · Lump-sum · Projection", color: "rgba(6,214,160,0.12)", tagColor: "#06d6a0", tagBg: "rgba(6,214,160,0.1)", href: "/tools?tab=deuda" },
-              { icon: "🌐", title: "Fully Bilingual", desc: "Every feature available in English and Spanish. Built for all communities in the American market.", tag: "English · Español", color: "rgba(124,58,237,0.12)", tagColor: "#a78bfa", tagBg: "rgba(124,58,237,0.1)", href: "/tools" },
+              { icon: "📊", titleEn: "Dual FICO Analyzer", titleEs: "Analizador FICO Dual", descEn: "Compare Traditional FICO 8/9 vs FICO 10T simultaneously. Understand exactly how lenders see you.", descEs: "Compara el FICO Tradicional 8/9 vs FICO 10T al mismo tiempo. Entiende exactamente cómo te ven los prestamistas.", tagEn: "FICO 8 · FICO 9 · FICO 10T", tagEs: "FICO 8 · FICO 9 · FICO 10T", color: "rgba(79,124,255,0.12)", tagColor: "#7ba7ff", tagBg: "rgba(79,124,255,0.1)", href: "/tools" },
+              { icon: "💳", titleEn: "Debt Accelerator", titleEs: "Acelerador de Deudas", descEn: "Avalanche strategy powered by real amortization math. See how much interest you save with one extra payment.", descEs: "Estrategia de avalancha con matemáticas reales de amortización. Mira cuánto interés ahorras con un pago extra.", tagEn: "Avalanche · Lump-sum · Projection", tagEs: "Avalancha · Pago único · Proyección", color: "rgba(6,214,160,0.12)", tagColor: "#06d6a0", tagBg: "rgba(6,214,160,0.1)", href: "/tools?tab=deuda" },
+              { icon: "🌐", titleEn: "Fully Bilingual", titleEs: "Totalmente Bilingüe", descEn: "Every feature available in English and Spanish. Built for all communities in the American market.", descEs: "Cada función disponible en inglés y español. Hecho para todas las comunidades del mercado estadounidense.", tagEn: "English · Español", tagEs: "Inglés · Español", color: "rgba(124,58,237,0.12)", tagColor: "#a78bfa", tagBg: "rgba(124,58,237,0.1)", href: "/tools" },
             ].map((f) => (
-              <a key={f.title} href={f.href} className="block bg-[#0d1220] border border-white/[0.07] rounded-2xl p-8 hover:border-white/[0.12] hover:-translate-y-1 transition-all duration-300 group">
+              <a key={f.titleEn} href={f.href} className="block bg-[#0d1220] border border-white/[0.07] rounded-2xl p-8 hover:border-white/[0.12] hover:-translate-y-1 transition-all duration-300 group">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl mb-5" style={{ background: f.color }}>{f.icon}</div>
-                <h3 className="text-lg font-bold text-[#f0f2f7] mb-2.5 tracking-[-0.3px]">{f.title}</h3>
-                <p className="text-sm text-[#8892a4] leading-relaxed font-light mb-4">{f.desc}</p>
-                <span className="inline-block text-[10px] font-medium uppercase tracking-[1px] px-2.5 py-1 rounded-full" style={{ background: f.tagBg, color: f.tagColor }}>{f.tag}</span>
+                <h3 className="text-lg font-bold text-[#f0f2f7] mb-2.5 tracking-[-0.3px]">{lang === 'es' ? f.titleEs : f.titleEn}</h3>
+                <p className="text-sm text-[#8892a4] leading-relaxed font-light mb-4">{lang === 'es' ? f.descEs : f.descEn}</p>
+                <span className="inline-block text-[10px] font-medium uppercase tracking-[1px] px-2.5 py-1 rounded-full" style={{ background: f.tagBg, color: f.tagColor }}>{lang === 'es' ? f.tagEs : f.tagEn}</span>
               </a>
             ))}
           </div>
@@ -219,24 +220,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative z-10 pb-24 px-6 text-center"><p style={{display:'none'}}></p>
-        <div style={{display:'none'}} className="flex justify-center gap-4 flex-wrap">
-          <a href="https://instagram.com/scoremotive" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#0d1220] border border-white/[0.07] rounded-xl px-5 py-2.5 text-sm font-medium text-[#8892a4] hover:border-white/[0.12] hover:text-[#f0f2f7] transition-all">
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            @scoremotive
-          </a>
-          <a href="https://x.com/scoremotive" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#0d1220] border border-white/[0.07] rounded-xl px-5 py-2.5 text-sm font-medium text-[#8892a4] hover:border-white/[0.12] hover:text-[#f0f2f7] transition-all">
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            @scoremotive
-          </a>
-        </div>
-      </section>
+        
 
       {/* Disclaimer */}
       <div className="relative z-10 border-t border-white/[0.07] py-8 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center gap-1.5 bg-[rgba(245,158,11,0.06)] border border-[rgba(245,158,11,0.15)] rounded-lg px-3.5 py-1.5 text-[11px] text-[#d4a017] mb-3">
-            ⚠️ Educational Tool
+            ⚠️ {lang === 'es' ? 'Herramienta Educativa' : 'Educational Tool'}
           </div>
           <p className="text-[11px] text-[#8892a4] leading-relaxed opacity-70">
             {t.disclaimer}
@@ -249,9 +239,9 @@ export default function Home() {
         <div className="max-w-5xl mx-auto flex items-center justify-between flex-wrap gap-4">
           <span className="text-xs text-[#8892a4]">{t.footer}</span>
           <div className="flex gap-6">
-            <a href="mailto:hola@scoremotive.com" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">Contact</a>
+            <a href="mailto:hola@scoremotive.com" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{lang === 'es' ? 'Contacto' : 'Contact'}</a>
             <a href="/legal" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">Legal</a>
-            <a href="/about" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">About</a>
+            <a href="/about" className="text-xs text-[#8892a4] hover:text-[#f0f2f7] transition-colors">{lang === 'es' ? 'Acerca de' : 'About'}</a>
           </div>
         </div>
       </footer>
