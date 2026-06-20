@@ -362,6 +362,7 @@ export default function ToolsPage() {
   }, []);
   const [scoreAnswers, setScoreAnswers] = useState({ historial: '', utilizacion: 'auto', antiguedad: '', tipos: '', consultas: '' });
   const [reporteScore, setReporteScore] = useState<ScoreReport | null>(null);
+  const [scoreError, setScoreError] = useState(false);
   const [debts, setDebts] = useState<Debt[]>([
     { id: 1, nombre: 'Credit Card A', balance: '5000', interesAnual: '24', pagoMensual: '200' },
     { id: 2, nombre: 'Business Line', balance: '12000', interesAnual: '14', pagoMensual: '350' }
@@ -405,7 +406,7 @@ export default function ToolsPage() {
   const handleAcceptDisclaimer = () => { sessionStorage.setItem('scoremotive_disclaimer_accepted', 'true'); setShowDisclaimer(false); };
   const toggleLanguage = () => setLang(lang === 'es' ? 'en' : 'es');
   const handleScoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => setScoreAnswers({ ...scoreAnswers, [e.target.name]: e.target.value });
-  const resetScoreForm = () => { setScoreAnswers({ historial: '', utilizacion: 'auto', antiguedad: '', tipos: '', consultas: '' }); setReporteScore(null); };
+  const resetScoreForm = () => { setScoreAnswers({ historial: '', utilizacion: 'auto', antiguedad: '', tipos: '', consultas: '' }); setReporteScore(null); setScoreError(false); };
   const handleDebtInputChange = (id: number, field: string, value: string) => {
     const cleanValue = value.replace(/[^0-9.]/g, '');
     setDebts(debts.map(d => d.id === id ? { ...d, [field]: cleanValue } : d));
@@ -437,9 +438,10 @@ export default function ToolsPage() {
     e.preventDefault();
     const { historial, utilizacion, antiguedad, tipos, consultas } = scoreAnswers;
     if (!historial || !utilizacion || !antiguedad || !tipos || !consultas) {
-      alert(lang === 'es' ? "Por favor, responde todas las preguntas." : "Please answer all questions.");
+      setScoreError(true);
       return;
     }
+    setScoreError(false);
     const utilizacionReal = utilizacion === 'auto' ? obtenerUtilizacionAutomatica() : utilizacion;
     const maxPuntos = { historial: 192.5, utilizacion: 165, antiguedad: 82.5, tipos: 55, consultas: 55 };
     const pT: Record<string, number> = {
@@ -478,7 +480,7 @@ export default function ToolsPage() {
 
   const calcularEstrategiaGlobal = (e: React.FormEvent) => {
     e.preventDefault();
-    if (hayAmortizacionNegativa) { alert(lang === 'es' ? "Corrige los pagos mínimos que no cubren los intereses." : "Fix minimum payments that don't cover interest."); return; }
+    if (hayAmortizacionNegativa) { return; }
     const inyeccionMensualFija = parseFloat(globalPagoExtra) || 0;
     const pagoUnicoDisponible = parseFloat(pagoUnicoSolaVez) || 0;
 
@@ -572,7 +574,7 @@ export default function ToolsPage() {
           </div>
           <div className="flex items-center gap-2">
             <button onClick={() => setShowDisclaimer(true)} className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 text-[10px] px-2 py-1.5 rounded-xl transition font-bold">
-              <ShieldAlert className="h-3 w-3" /><span className="hidden sm:inline">Aviso</span>
+              <ShieldAlert className="h-3 w-3" /><span className="hidden sm:inline">{lang === 'es' ? 'Aviso' : 'Notice'}</span>
             </button>
             <button onClick={toggleLanguage} className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs px-2.5 py-1.5 rounded-xl transition font-bold text-slate-300">
               <Globe className="h-3.5 w-3.5 text-indigo-400" />{lang === 'es' ? 'EN' : 'ES'}
@@ -630,6 +632,11 @@ export default function ToolsPage() {
                       <option value="critico">{t.u_critico}</option>
                     </select>
                   </div>
+                  {scoreError && (
+                    <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-[11px] font-semibold">
+                      {lang === 'es' ? "Por favor, responde todas las preguntas." : "Please answer all questions."}
+                    </div>
+                  )}
                   <button type="submit" className="btn-primary w-full text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 mt-2">
                     <Zap className="h-3.5 w-3.5" /> {t.calcScore} <ChevronRight className="h-3.5 w-3.5" />
                   </button>
