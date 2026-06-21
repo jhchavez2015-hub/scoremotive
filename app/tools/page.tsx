@@ -10,7 +10,7 @@ import {
 const translations: Record<string, Record<string, string>> = {
   es: {
     title: "ScoreMotive", version: "V4.5 Hybrid Pro",
-    tabFico: "Analizador FICO Dual", tabDeudas: "Acelerador de Deudas",
+    tabFico: "Estimador de Score Dual", tabDeudas: "Acelerador de Deudas",
     configTitle: "Configuración de Perfil Crediticio",
     configSub: "Los cambios en tus deudas afectan la utilización automáticamente.",
     lblHistorial: "1. Historial de Pagos (Payment History)",
@@ -21,8 +21,8 @@ const translations: Record<string, Record<string, string>> = {
     selDefault: "Selecciona una opción...", calcScore: "Calcular Ambos Modelos",
     resetForm: "Reiniciar Formulario", waitingData: "Esperando datos de entrada",
     waitingSub: "Completa el formulario para generar la auditoría de crédito simultánea.",
-    reportTitle: "Auditoría Dual de Puntuación FICO",
-    traditionalModel: "FICO Tradicional (8/9)", trendedModel: "FICO 10 T (Tendencial)",
+    reportTitle: "Auditoría Dual de Puntuación de Crédito",
+    traditionalModel: "Modelo Tradicional (Estilo FICO 8/9)", trendedModel: "Modelo Tendencial (Estilo FICO 10T)",
     impactTitle: "Impacto Métrico en Situación Actual",
     strategyTitle: "Estrategia de Optimización Recomendada",
     maxWeight: "Peso Máx.",
@@ -35,6 +35,8 @@ const translations: Record<string, Record<string, string>> = {
     btnCalcularDeudas: "Calcular Estrategia de Amortización", btnExportar: "Exportar Reporte",
     alertaAmortizacion: "¡Peligro de Amortización Negativa!",
     alertaAmortizacionDesc: "El pago mínimo ingresado es demasiado bajo en alguna de tus cuentas.",
+    alertaTope: "Proyección Limitada a 30 Años",
+    alertaTopeDesc: "Con los pagos ingresados, una o más cuentas no se liquidan dentro de 360 meses. Las cifras mostradas son un límite, no el resultado real.",
     footerText: "© 2026 ScoreMotive • Analizador Financiero de Datos Tendenciales",
     footerDisclaimer: "Solo para propósitos educativos. No constituye asesoría financiera.",
     meses: "meses", r_exceptional: "Excepcional", r_verygood: "Muy Bueno",
@@ -55,14 +57,14 @@ const translations: Record<string, Record<string, string>> = {
     disclaimerTitle: "Descargo de Responsabilidad",
     disclaimerBody1: "ScoreMotive es una herramienta educativa e informativa.",
     disclaimerBody2: "La información NO constituye asesoría financiera, legal, ni fiscal profesional.",
-    disclaimerBody3: "Los resultados del Analizador FICO son estimaciones educativas.",
+    disclaimerBody3: "Los resultados del Estimador de Score son estimaciones educativas.",
     disclaimerBody4: "Consulta siempre con un asesor financiero certificado (CFP).",
     disclaimerAccept: "Entiendo y acepto los términos",
     disclaimerEducational: "🎓 Solo uso educativo • No es asesoría financiera",
   },
   en: {
     title: "ScoreMotive", version: "V4.5 Hybrid Pro",
-    tabFico: "Dual FICO Analyzer", tabDeudas: "Debt Accelerator",
+    tabFico: "Dual Score Estimator", tabDeudas: "Debt Accelerator",
     configTitle: "Credit Profile Configuration",
     configSub: "Changes in your debts will automatically affect credit utilization.",
     lblHistorial: "1. Payment History",
@@ -73,8 +75,8 @@ const translations: Record<string, Record<string, string>> = {
     selDefault: "Select an option...", calcScore: "Calculate Both Models",
     resetForm: "Reset Form", waitingData: "Waiting for Input Data",
     waitingSub: "Complete the form to generate the simultaneous credit audit.",
-    reportTitle: "Dual FICO Score Audit Report",
-    traditionalModel: "Traditional FICO (8/9)", trendedModel: "FICO 10 T (Trended Data)",
+    reportTitle: "Dual Credit Score Audit Report",
+    traditionalModel: "Traditional Model (FICO 8/9 Style)", trendedModel: "Trended Model (FICO 10T Style)",
     impactTitle: "Metric Impact on Current Situation",
     strategyTitle: "Recommended Optimization Strategy",
     maxWeight: "Max Weight",
@@ -87,6 +89,8 @@ const translations: Record<string, Record<string, string>> = {
     btnCalcularDeudas: "Calculate Amortization Strategy", btnExportar: "Export Report",
     alertaAmortizacion: "Negative Amortization Hazard!",
     alertaAmortizacionDesc: "The minimum payment entered is too low on one or more accounts.",
+    alertaTope: "Projection Capped at 30 Years",
+    alertaTopeDesc: "With the payments entered, one or more accounts do not pay off within 360 months. The figures shown are a ceiling, not the real outcome.",
     footerText: "© 2026 ScoreMotive • Trended Data Financial Systems",
     footerDisclaimer: "For educational purposes only. Not financial advice.",
     meses: "months", r_exceptional: "Exceptional", r_verygood: "Very Good",
@@ -105,7 +109,7 @@ const translations: Record<string, Record<string, string>> = {
     disclaimerTitle: "Disclaimer",
     disclaimerBody1: "ScoreMotive is an educational and informational tool.",
     disclaimerBody2: "This app does NOT constitute professional financial, legal, or tax advice.",
-    disclaimerBody3: "FICO Analyzer results are educational estimates.",
+    disclaimerBody3: "Score Estimator results are educational estimates.",
     disclaimerBody4: "Always consult a Certified Financial Planner (CFP).",
     disclaimerAccept: "I understand and accept the terms",
     disclaimerEducational: "🎓 Educational use only • Not financial advice",
@@ -141,6 +145,17 @@ interface DebtResult {
   dineroAhorradoSnowball: number;
   ordenAvalanche: string[];
   ordenSnowball: string[];
+  capAlcanzado: boolean;
+}
+
+// FIX #1: helper que protege contra fallos de localStorage (Safari privado, storage lleno, políticas de empresa, etc.)
+function safeLocalStorageSet(key: string, value: string) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(key, value);
+  } catch (err) {
+    console.warn(`No se pudo guardar "${key}" en localStorage:`, err);
+  }
 }
 
 function DisclaimerModal({ lang, onAccept }: { lang: string; onAccept: () => void }) {
@@ -211,13 +226,22 @@ function ScoreBadge({ score, label, color }: { score: number; label: string; col
   );
 }
 
+// FIX #4: trunca texto al ancho de columna disponible para que nombres largos no se monten sobre la siguiente columna
+function truncarTexto(doc: any, texto: string, maxWidth: number): string {
+  if (doc.getTextWidth(texto) <= maxWidth) return texto;
+  let resultado = texto;
+  while (resultado.length > 1 && doc.getTextWidth(resultado + '…') > maxWidth) {
+    resultado = resultado.slice(0, -1);
+  }
+  return resultado + '…';
+}
+
 async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pagoExtra: string, pagoUnico: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF();
   const isEs = lang === 'es';
   const fecha = new Date().toLocaleDateString(isEs ? 'es-US' : 'en-US');
 
-  // Header
   doc.setFillColor(8, 11, 18);
   doc.rect(0, 0, 210, 297, 'F');
   doc.setTextColor(240, 242, 247);
@@ -230,11 +254,9 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.text(isEs ? 'Informe de Estrategia de Deudas' : 'Debt Strategy Report', 20, 28);
   doc.text(`${isEs ? 'Fecha' : 'Date'}: ${fecha}`, 20, 35);
 
-  // Line
   doc.setDrawColor(79, 124, 255);
   doc.line(20, 40, 190, 40);
 
-  // Debts table
   doc.setTextColor(240, 242, 247);
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
@@ -255,7 +277,8 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
 
   doc.setTextColor(240, 242, 247);
   debts.forEach(d => {
-    doc.text(d.nombre, 20, y);
+    // FIX #4: la columna "Nombre" tiene ~55pt antes de chocar con "Balance" en x=80
+    doc.text(truncarTexto(doc, d.nombre, 55), 20, y);
     doc.text(`$${parseFloat(d.balance).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, 80, y);
     doc.text(`${d.interesAnual}%`, 120, y);
     doc.text(`$${parseFloat(d.pagoMensual).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, 150, y);
@@ -273,7 +296,6 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.line(20, y, 190, y);
   y += 8;
 
-  // Results comparison
   doc.setTextColor(240, 242, 247);
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
@@ -284,7 +306,7 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.setFont('helvetica', 'normal');
 
   const cols = [
-    { label: isEs ? 'Sin Estrategia' : 'No Strategy', color: [244, 63, 94] as [number,number,number], meses: result.mesesRegular, interes: result.interesesRegular, ahorro: 0, orden: [] },
+    { label: isEs ? 'Sin Estrategia' : 'No Strategy', color: [244, 63, 94] as [number,number,number], meses: result.mesesRegular, interes: result.interesesRegular, ahorro: 0, orden: [] as string[] },
     { label: isEs ? 'AVALANCHA' : 'AVALANCHE', color: [79, 124, 255] as [number,number,number], meses: result.mesesAcelerado, interes: result.interesesAcelerado, ahorro: result.dineroAhorrado, orden: result.ordenAvalanche },
     { label: isEs ? 'BOLA DE NIEVE' : 'SNOWBALL', color: [6, 214, 160] as [number,number,number], meses: result.mesesSnowball, interes: result.interesesSnowball, ahorro: result.dineroAhorradoSnowball, orden: result.ordenSnowball },
   ];
@@ -306,14 +328,14 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
       doc.setTextColor(136, 146, 164);
       doc.text(isEs ? 'Orden:' : 'Order:', x, y + 26);
       col.orden.forEach((nombre, j) => {
-        doc.text(`${j + 1}. ${nombre}`, x, y + 32 + j * 6);
+        // FIX #4: cada columna de orden tiene ~55pt de ancho antes de chocar con la siguiente
+        doc.text(`${j + 1}. ${truncarTexto(doc, nombre, 50)}`, x, y + 32 + j * 6);
       });
     }
   });
 
   y += 32 + debts.length * 6 + 10;
 
-  // Recommendation
   doc.setDrawColor(51, 65, 85);
   doc.line(20, y, 190, y);
   y += 8;
@@ -333,7 +355,19 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.text(lines, 20, y);
   y += lines.length * 5 + 8;
 
-  // Disclaimer
+  // FIX #2: si la proyección llegó al tope de 360 meses, que quede constancia también en el PDF
+  if (result.capAlcanzado) {
+    doc.setTextColor(244, 63, 94);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    const capText = isEs
+      ? 'Nota: una o más cifras de este informe están limitadas a 30 años (360 meses) porque el saldo no se liquida en ese plazo con los pagos ingresados.'
+      : 'Note: one or more figures in this report are capped at 30 years (360 months) because the balance does not pay off within that period given the payments entered.';
+    const capLines = doc.splitTextToSize(capText, 170);
+    doc.text(capLines, 20, y);
+    y += capLines.length * 4 + 6;
+  }
+
   doc.setDrawColor(51, 65, 85);
   doc.line(20, y, 190, y);
   y += 6;
@@ -358,6 +392,10 @@ export default function ToolsPage() {
       const params = new URLSearchParams(window.location.search);
       const tab = params.get('tab');
       if (tab === 'deuda') setActiveTab('deuda');
+      // FIX: usa la misma key que app/page.tsx para que el idioma elegido
+      // en el home se mantenga al entrar a /tools, y viceversa.
+      const savedLang = window.localStorage.getItem('scoremotive_lang');
+      if (savedLang === 'en' || savedLang === 'es') setLang(savedLang);
     }
   }, []);
   const [scoreAnswers, setScoreAnswers] = useState({ historial: '', utilizacion: 'auto', antiguedad: '', tipos: '', consultas: '' });
@@ -386,9 +424,10 @@ export default function ToolsPage() {
     }
   }, []);
 
+  // FIX #1: ahora usa safeLocalStorageSet en vez de localStorage.setItem directo
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('scoremotive_debts', JSON.stringify(debts));
+      safeLocalStorageSet('scoremotive_debts', JSON.stringify(debts));
       let peligro = false;
       debts.forEach(d => {
         const bal = parseFloat(d.balance) || 0;
@@ -400,11 +439,15 @@ export default function ToolsPage() {
     }
   }, [debts]);
 
-  useEffect(() => { if (typeof window !== 'undefined') localStorage.setItem('scoremotive_pago_extra', globalPagoExtra); }, [globalPagoExtra]);
-  useEffect(() => { if (typeof window !== 'undefined') localStorage.setItem('scoremotive_pago_unico', pagoUnicoSolaVez); }, [pagoUnicoSolaVez]);
+  useEffect(() => { safeLocalStorageSet('scoremotive_pago_extra', globalPagoExtra); }, [globalPagoExtra]);
+  useEffect(() => { safeLocalStorageSet('scoremotive_pago_unico', pagoUnicoSolaVez); }, [pagoUnicoSolaVez]);
 
   const handleAcceptDisclaimer = () => { sessionStorage.setItem('scoremotive_disclaimer_accepted', 'true'); setShowDisclaimer(false); };
-  const toggleLanguage = () => setLang(lang === 'es' ? 'en' : 'es');
+  const toggleLanguage = () => {
+    const next = lang === 'es' ? 'en' : 'es';
+    setLang(next);
+    safeLocalStorageSet('scoremotive_lang', next);
+  };
   const handleScoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => setScoreAnswers({ ...scoreAnswers, [e.target.name]: e.target.value });
   const resetScoreForm = () => { setScoreAnswers({ historial: '', utilizacion: 'auto', antiguedad: '', tipos: '', consultas: '' }); setReporteScore(null); setScoreError(false); };
   const handleDebtInputChange = (id: number, field: string, value: string) => {
@@ -484,15 +527,15 @@ export default function ToolsPage() {
     const inyeccionMensualFija = parseFloat(globalPagoExtra) || 0;
     const pagoUnicoDisponible = parseFloat(pagoUnicoSolaVez) || 0;
 
-    // Plan mínimo
     let activeReg = debts.map(d => ({ balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0);
     let mesesRegular = 0, totalInteresesRegular = 0;
     while (activeReg.length > 0 && mesesRegular < 360) {
       mesesRegular++;
       activeReg = activeReg.filter(d => { const im = d.balance * d.r; totalInteresesRegular += im; const pe = Math.min(d.pmt, d.balance + im); d.balance = (d.balance + im) - pe; return d.balance > 0.01; });
     }
+    // FIX #2: si quedan deudas activas al cortar el loop, el plazo de 360 meses se alcanzó sin liquidar
+    const capRegular = activeReg.length > 0;
 
-    // Avalancha — orden por mayor tasa de interés
     const ordenAvalanche = [...debts].filter(d => parseFloat(d.balance) > 0).sort((a, b) => parseFloat(b.interesAnual) - parseFloat(a.interesAnual)).map(d => d.nombre);
     let activeAce = debts.map(d => ({ nombre: d.nombre, balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0).sort((a, b) => b.r - a.r);
     let mesesAcelerado = 0, totalInteresesAcelerado = 0;
@@ -507,8 +550,8 @@ export default function ToolsPage() {
       if (aplicarPagosLiberados) pagosLiberadosAce += eliminadasAce.reduce((sum, d) => sum + d.pmt, 0);
       activeAce = activeAce.filter(d => d.balance > 0.01);
     }
+    const capAcelerado = activeAce.length > 0;
 
-    // Bola de Nieve — orden por menor balance
     const ordenSnowball = [...debts].filter(d => parseFloat(d.balance) > 0).sort((a, b) => parseFloat(a.balance) - parseFloat(b.balance)).map(d => d.nombre);
     let activeSnow = debts.map(d => ({ nombre: d.nombre, balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0).sort((a, b) => a.balance - b.balance);
     let mesesSnowball = 0, totalInteresesSnowball = 0;
@@ -523,6 +566,7 @@ export default function ToolsPage() {
       if (aplicarPagosLiberados) pagosLiberadosSnow += eliminadasSnow.reduce((sum, d) => sum + d.pmt, 0);
       activeSnow = activeSnow.filter(d => d.balance > 0.01);
     }
+    const capSnowball = activeSnow.length > 0;
 
     setDebtResult({
       mesesRegular, interesesRegular: Math.max(0, totalInteresesRegular),
@@ -532,6 +576,8 @@ export default function ToolsPage() {
       mesesSnowball, interesesSnowball: Math.max(0, totalInteresesSnowball),
       dineroAhorradoSnowball: Math.max(0, totalInteresesRegular - totalInteresesSnowball),
       ordenAvalanche, ordenSnowball,
+      // FIX #2: bandera combinada que dispara el aviso en la UI y en el PDF
+      capAlcanzado: capRegular || capAcelerado || capSnowball,
     });
   };
 
@@ -573,10 +619,11 @@ export default function ToolsPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setShowDisclaimer(true)} className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 text-[10px] px-2 py-1.5 rounded-xl transition font-bold">
+            {/* FIX #3: aria-label porque el texto visible se oculta en mobile (hidden sm:inline) y el botón quedaría sin nombre accesible */}
+            <button onClick={() => setShowDisclaimer(true)} aria-label={lang === 'es' ? 'Ver aviso legal' : 'View legal notice'} className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 text-[10px] px-2 py-1.5 rounded-xl transition font-bold">
               <ShieldAlert className="h-3 w-3" /><span className="hidden sm:inline">{lang === 'es' ? 'Aviso' : 'Notice'}</span>
             </button>
-            <button onClick={toggleLanguage} className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs px-2.5 py-1.5 rounded-xl transition font-bold text-slate-300">
+            <button onClick={toggleLanguage} aria-label={lang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish'} className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs px-2.5 py-1.5 rounded-xl transition font-bold text-slate-300">
               <Globe className="h-3.5 w-3.5 text-indigo-400" />{lang === 'es' ? 'EN' : 'ES'}
             </button>
           </div>
@@ -615,16 +662,17 @@ export default function ToolsPage() {
                     { label: t.lblInquiries, name: 'consultas', options: [['ningun', t.i_0], ['pocas', t.i_pocas], ['muchas', t.i_muchas]] },
                   ].map(({ label, name, options }) => (
                     <div key={name}>
-                      <label className="block text-[11px] font-semibold text-slate-300 mb-1.5">{label}</label>
-                      <select name={name} value={scoreAnswers[name as keyof typeof scoreAnswers]} onChange={handleScoreChange} className="input-field w-full rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
+                      {/* FIX #3: htmlFor/id enlazados */}
+                      <label htmlFor={name} className="block text-[11px] font-semibold text-slate-300 mb-1.5">{label}</label>
+                      <select id={name} name={name} value={scoreAnswers[name as keyof typeof scoreAnswers]} onChange={handleScoreChange} className="input-field w-full rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
                         <option value="">{t.selDefault}</option>
                         {options.map(([val, lbl]) => <option key={val} value={val}>{lbl}</option>)}
                       </select>
                     </div>
                   ))}
                   <div>
-                    <label className="block text-[11px] font-semibold text-slate-300 mb-1.5">{t.lblUtilizacion}</label>
-                    <select name="utilizacion" value={scoreAnswers.utilizacion} onChange={handleScoreChange} className="input-field w-full rounded-xl px-3 py-2 text-xs text-indigo-400 font-medium focus:outline-none">
+                    <label htmlFor="utilizacion" className="block text-[11px] font-semibold text-slate-300 mb-1.5">{t.lblUtilizacion}</label>
+                    <select id="utilizacion" name="utilizacion" value={scoreAnswers.utilizacion} onChange={handleScoreChange} className="input-field w-full rounded-xl px-3 py-2 text-xs text-indigo-400 font-medium focus:outline-none">
                       <option value="auto">🔄 {t.u_auto}</option>
                       <option value="bajo">{t.u_bajo}</option>
                       <option value="moderado">{t.u_mod}</option>
@@ -740,14 +788,17 @@ export default function ToolsPage() {
                 {debts.map((debt) => (
                   <div key={debt.id} className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl space-y-3 card-glow">
                     <div className="flex justify-between items-center border-b border-slate-800/60 pb-2">
-                      <input type="text" value={debt.nombre} onChange={(e) => setDebts(debts.map(d => d.id === debt.id ? { ...d, nombre: e.target.value } : d))} className="bg-transparent border-none font-bold text-xs text-indigo-400 focus:outline-none w-2/3" />
-                      {debts.length > 1 && (<button type="button" onClick={() => eliminarDeuda(debt.id)} className="btn-danger text-rose-400 p-1.5 rounded-lg transition"><Trash2 className="h-3.5 w-3.5" /></button>)}
+                      {/* FIX #3: sin label visible — se agrega aria-label para lectores de pantalla */}
+                      <input type="text" value={debt.nombre} aria-label={lang === 'es' ? 'Nombre de la deuda' : 'Debt name'}
+                        onChange={(e) => setDebts(debts.map(d => d.id === debt.id ? { ...d, nombre: e.target.value } : d))} className="bg-transparent border-none font-bold text-xs text-indigo-400 focus:outline-none w-2/3" />
+                      {debts.length > 1 && (<button type="button" onClick={() => eliminarDeuda(debt.id)} aria-label={lang === 'es' ? 'Eliminar deuda' : 'Delete debt'} className="btn-danger text-rose-400 p-1.5 rounded-lg transition"><Trash2 className="h-3.5 w-3.5" /></button>)}
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                       {[['balance', t.lblMonto], ['interesAnual', t.lblInteres], ['pagoMensual', t.lblPagoMin]].map(([field, label]) => (
                         <div key={field}>
-                          <label className="block text-[10px] text-slate-500 font-bold mb-1">{label}</label>
-                          <input type="text" value={debt[field as keyof Debt]} onChange={(e) => handleDebtInputChange(debt.id, field, e.target.value)} className="input-field w-full rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold" required />
+                          {/* FIX #3: id único por deuda+campo para que htmlFor no se repita entre tarjetas */}
+                          <label htmlFor={`debt-${debt.id}-${field}`} className="block text-[10px] text-slate-500 font-bold mb-1">{label}</label>
+                          <input id={`debt-${debt.id}-${field}`} type="text" value={debt[field as keyof Debt]} onChange={(e) => handleDebtInputChange(debt.id, field, e.target.value)} className="input-field w-full rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold" required />
                         </div>
                       ))}
                     </div>
@@ -756,15 +807,14 @@ export default function ToolsPage() {
 
                 <div className="bg-gradient-to-br from-indigo-500/8 to-violet-500/5 border border-indigo-500/20 p-4 rounded-xl mt-2 space-y-3">
                   <div>
-                    <label className="block text-xs font-bold text-indigo-300 mb-1.5">{t.lblInyeccionMensual}</label>
-                    <input type="text" value={globalPagoExtra} onChange={(e) => setGlobalPagoExtra(e.target.value.replace(/[^0-9.]/g, ''))} className="input-field w-full rounded-xl px-3 py-2 text-xs font-bold text-indigo-400" />
+                    <label htmlFor="pagoExtraMensual" className="block text-xs font-bold text-indigo-300 mb-1.5">{t.lblInyeccionMensual}</label>
+                    <input id="pagoExtraMensual" type="text" value={globalPagoExtra} onChange={(e) => setGlobalPagoExtra(e.target.value.replace(/[^0-9.]/g, ''))} className="input-field w-full rounded-xl px-3 py-2 text-xs font-bold text-indigo-400" />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-emerald-400 mb-1.5 flex items-center gap-1.5"><Zap className="h-3.5 w-3.5" />{t.lblInyeccionUnica}</label>
-                    <input type="text" value={pagoUnicoSolaVez} onChange={(e) => setPagoUnicoSolaVez(e.target.value.replace(/[^0-9.]/g, ''))} className="input-field w-full rounded-xl px-3 py-2 text-xs font-bold text-emerald-400" />
+                    <label htmlFor="pagoUnico" className="block text-xs font-bold text-emerald-400 mb-1.5 flex items-center gap-1.5"><Zap className="h-3.5 w-3.5" />{t.lblInyeccionUnica}</label>
+                    <input id="pagoUnico" type="text" value={pagoUnicoSolaVez} onChange={(e) => setPagoUnicoSolaVez(e.target.value.replace(/[^0-9.]/g, ''))} className="input-field w-full rounded-xl px-3 py-2 text-xs font-bold text-emerald-400" />
                   </div>
 
-                  {/* Checkbox pagos liberados */}
                   <div className="flex items-start gap-3 pt-1">
                     <input
                       type="checkbox"
@@ -793,7 +843,17 @@ export default function ToolsPage() {
               {debtResult ? (
                 <div className="score-card space-y-4">
 
-                  {/* Botón PDF */}
+                  {/* FIX #2: aviso visible si alguna proyección llegó al tope de 360 meses */}
+                  {debtResult.capAlcanzado && (
+                    <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex gap-3 items-start">
+                      <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
+                      <div>
+                        <h5 className="text-xs font-bold">{t.alertaTope}</h5>
+                        <p className="text-[11px] text-amber-300/80 mt-0.5 leading-relaxed">{t.alertaTopeDesc}</p>
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     onClick={() => exportarPDF(debtResult, debts, lang, globalPagoExtra, pagoUnicoSolaVez)}
                     className="w-full flex items-center justify-center gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-bold py-2.5 rounded-xl text-xs transition">
@@ -801,7 +861,6 @@ export default function ToolsPage() {
                     {lang === 'es' ? 'Descargar Informe PDF' : 'Download PDF Report'}
                   </button>
 
-                  {/* Sin estrategia */}
                   <div className="bg-rose-950/20 border border-rose-500/20 p-4 rounded-xl">
                     <h4 className="text-[10px] font-bold text-rose-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                       <AlertTriangle className="h-3.5 w-3.5" />
@@ -819,9 +878,7 @@ export default function ToolsPage() {
                     </div>
                   </div>
 
-                  {/* Comparación lado a lado */}
                   <div className="grid grid-cols-2 gap-3">
-                    {/* Avalancha */}
                     <div className="bg-indigo-950/30 border border-indigo-500/25 p-4 rounded-xl">
                       <h4 className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-3">
                         🏔️ {lang === 'es' ? 'Avalancha' : 'Avalanche'}
@@ -851,7 +908,6 @@ export default function ToolsPage() {
                       </div>
                     </div>
 
-                    {/* Bola de Nieve */}
                     <div className="bg-emerald-950/30 border border-emerald-500/25 p-4 rounded-xl">
                       <h4 className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-3">
                         ⛄ {lang === 'es' ? 'Bola de Nieve' : 'Snowball'}
@@ -882,7 +938,6 @@ export default function ToolsPage() {
                     </div>
                   </div>
 
-                  {/* Recomendación */}
                   <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
                     <h4 className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                       <Lightbulb className="h-3.5 w-3.5" />

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const content = {
   en: {
@@ -7,7 +7,7 @@ const content = {
     h1a: "Know your score.",
     h1b: "Own your future.",
     sub: "Entiende tu crédito. Domina tu futuro.",
-    desc: "Free bilingual tools to analyze your FICO score, accelerate debt payoff, and build lasting credit — in English and Spanish.",
+    desc: "Free bilingual tools to analyze your credit score, accelerate debt payoff, and build lasting credit — in English and Spanish.",
     note: "100% Free. No credit card required.",
 emailPlaceholder: "Enter your email address",
 joinBtn: "Join Our Newsletter",
@@ -15,7 +15,7 @@ errorMsg: "Something went wrong. Please try again.",
     toolsBtn: "Try the Tools Free",
     whatscoming: "What we offer",
     follow: "Follow us",
-    disclaimer: "ScoreMotive is an educational and informational tool. It does not constitute professional financial, legal, or tax advice. FICO score results are estimates based on simplified models. Always consult a Certified Financial Planner (CFP) before making financial decisions. This site may receive compensation through affiliate links.",
+    disclaimer: "ScoreMotive is an educational and informational tool. It does not constitute professional financial, legal, or tax advice. Credit score results are estimates based on simplified models. Always consult a Certified Financial Planner (CFP) before making financial decisions. This site may receive compensation through affiliate links.",
     footer: "© 2026 ScoreMotive · Educational use only",
   },
   es: {
@@ -23,7 +23,7 @@ errorMsg: "Something went wrong. Please try again.",
     h1a: "Conoce tu score.",
     h1b: "Domina tu futuro.",
     sub: "Know your score. Own your future.",
-    desc: "Herramientas bilingües gratuitas para analizar tu puntuación FICO, acelerar el pago de deudas y construir crédito duradero — en inglés y español.",
+    desc: "Herramientas bilingües gratuitas para analizar tu puntuación de crédito, acelerar el pago de deudas y construir crédito duradero — en inglés y español.",
     note: "100% Gratis. Sin tarjeta de crédito.",
 emailPlaceholder: "Ingresa tu correo electrónico",
 joinBtn: "Únete a Nuestro Boletín",
@@ -31,19 +31,41 @@ errorMsg: "Algo salió mal. Intenta de nuevo.",
     toolsBtn: "Probar las Herramientas →",
     whatscoming: "Lo que ofrecemos",
     follow: "Síguenos",
-    disclaimer: "ScoreMotive es una herramienta educativa e informativa. No constituye asesoría financiera, legal ni fiscal profesional. Los resultados del FICO son estimaciones basadas en modelos simplificados. Consulta siempre a un CFP antes de tomar decisiones financieras. Este sitio puede recibir compensación por enlaces de afiliados.",
+    disclaimer: "ScoreMotive es una herramienta educativa e informativa. No constituye asesoría financiera, legal ni fiscal profesional. Los resultados de la puntuación de crédito son estimaciones basadas en modelos simplificados. Consulta siempre a un CFP antes de tomar decisiones financieras. Este sitio puede recibir compensación por enlaces de afiliados.",
     footer: "© 2026 ScoreMotive · Solo uso educativo",
   }
 };
 
+// FIX (idioma persistente): misma key que usaremos en app/tools/page.tsx
+// para que el idioma elegido aquí se mantenga al navegar a /tools.
+const LANG_STORAGE_KEY = "scoremotive_lang";
+
 export default function Home() {
   const [lang, setLang] = useState<"en" | "es">("en");
   const t = content[lang];
-  const toggleLang = () => setLang(lang === "en" ? "es" : "en");
+
+  // FIX: al montar, recupera el idioma guardado (si el usuario ya eligió uno
+  // antes, en esta página o en /tools) en vez de siempre arrancar en "en".
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
+    if (saved === "en" || saved === "es") setLang(saved);
+  }, []);
+
+  const toggleLang = () => {
+    const next = lang === "en" ? "es" : "en";
+    setLang(next);
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem(LANG_STORAGE_KEY, next);
+      } catch (err) {
+        console.warn("No se pudo guardar el idioma en localStorage:", err);
+      }
+    }
+  };
+
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -56,7 +78,9 @@ export default function Home() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
+          // FIX (Beehiiv bilingüe): ahora manda el idioma actual junto con el
+          // email para que la API route elija la automation correcta.
+          body: JSON.stringify({ email, lang }),
         }
       );
       if (res.ok) {
@@ -112,7 +136,7 @@ export default function Home() {
           </h1>
 
           <p className="text-[clamp(16px,2.5vw,22px)] text-[#8892a4] font-light mb-8">
-            Entiende tu crédito. Domina tu futuro.
+            {t.sub}
           </p>
 
           <p className="text-[clamp(15px,2vw,18px)] text-[#8892a4] max-w-xl mx-auto mb-12 leading-relaxed font-light">
@@ -122,7 +146,7 @@ export default function Home() {
           {/* Email Form */}
           {status === "success" ? (
             <div className="max-w-md mx-auto mb-6 bg-[rgba(6,214,160,0.08)] border border-[rgba(6,214,160,0.2)] rounded-xl px-6 py-4 text-sm text-[#06d6a0]">
-              {lang === 'es' ? '✓ ¡Ya estás en la lista! Te avisaremos cuando lancemos.' : '✓ You\'re on the list! We\'ll notify you when we launch.'}
+              {lang === 'es' ? '✓ ¡Listo! Revisa tu correo para confirmar tu suscripción.' : '✓ You\'re subscribed! Check your inbox to confirm.'}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex gap-3 max-w-md mx-auto mb-6">
@@ -150,9 +174,6 @@ export default function Home() {
 
           <p className="text-xs text-[#8892a4]">{t.note}</p>
 
-          
-
-         
         </div>
       </section>
 
@@ -162,7 +183,7 @@ export default function Home() {
           <p className="text-center text-[11px] uppercase tracking-[3px] text-[#8892a4] mb-12">{t.whatscoming}</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { icon: "📊", titleEn: "Dual FICO Analyzer", titleEs: "Analizador FICO Dual", descEn: "Compare Traditional FICO 8/9 vs FICO 10T simultaneously. Understand exactly how lenders see you.", descEs: "Compara el FICO Tradicional 8/9 vs FICO 10T al mismo tiempo. Entiende exactamente cómo te ven los prestamistas.", tagEn: "FICO 8 · FICO 9 · FICO 10T", tagEs: "FICO 8 · FICO 9 · FICO 10T", color: "rgba(79,124,255,0.12)", tagColor: "#7ba7ff", tagBg: "rgba(79,124,255,0.1)", href: "/tools" },
+              { icon: "📊", titleEn: "Dual Score Estimator", titleEs: "Estimador de Score Dual", descEn: "Compare Traditional FICO 8/9 vs FICO 10T simultaneously. Understand exactly how lenders see you.", descEs: "Compara el FICO Tradicional 8/9 vs FICO 10T al mismo tiempo. Entiende exactamente cómo te ven los prestamistas.", tagEn: "FICO 8 · FICO 9 · FICO 10T", tagEs: "FICO 8 · FICO 9 · FICO 10T", color: "rgba(79,124,255,0.12)", tagColor: "#7ba7ff", tagBg: "rgba(79,124,255,0.1)", href: "/tools" },
               { icon: "💳", titleEn: "Debt Accelerator", titleEs: "Acelerador de Deudas", descEn: "Avalanche strategy powered by real amortization math. See how much interest you save with one extra payment.", descEs: "Estrategia de avalancha con matemáticas reales de amortización. Mira cuánto interés ahorras con un pago extra.", tagEn: "Avalanche · Snowball · PDF Export", tagEs: "Avalancha · Bola de Nieve · Exportar PDF", color: "rgba(6,214,160,0.12)", tagColor: "#06d6a0", tagBg: "rgba(6,214,160,0.1)", href: "/tools?tab=deuda" },
               { icon: "🌐", titleEn: "Fully Bilingual", titleEs: "Totalmente Bilingüe", descEn: "Every feature available in English and Spanish. Built for all communities in the American market.", descEs: "Cada función disponible en inglés y español. Hecho para todas las comunidades del mercado estadounidense.", tagEn: "English · Español", tagEs: "Inglés · Español", color: "rgba(124,58,237,0.12)", tagColor: "#a78bfa", tagBg: "rgba(124,58,237,0.1)", href: "/tools" },
             ].map((f) => (
@@ -219,8 +240,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        
 
       {/* Disclaimer */}
       <div className="relative z-10 border-t border-white/[0.07] py-8 px-6">
