@@ -8,8 +8,8 @@ import DisclaimerModal from './DisclaimerModal';
 import FicoTab from './FicoTab';
 import DebtTab from './DebtTab';
 
-export default function ToolsPage() {
-  const [lang, setLang] = useState<'es' | 'en'>('es');
+export default function ToolsClient({ initialLocale }: { initialLocale: 'en' | 'es' }) {
+  const [lang, setLang] = useState<'es' | 'en'>(initialLocale);
   const t = translations[lang];
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [activeTab, setActiveTab] = useState('score');
@@ -27,9 +27,6 @@ export default function ToolsPage() {
       const tab = params.get('tab');
       if (tab === 'deuda') setActiveTab('deuda');
 
-      const savedLang = window.localStorage.getItem('scoremotive_lang');
-      if (savedLang === 'en' || savedLang === 'es') setLang(savedLang);
-
       const accepted = sessionStorage.getItem('scoremotive_disclaimer_accepted');
       if (!accepted) setShowDisclaimer(true);
 
@@ -46,7 +43,6 @@ export default function ToolsPage() {
   const toggleLanguage = () => {
     const next = lang === 'es' ? 'en' : 'es';
     setLang(next);
-    safeLocalStorageSet('scoremotive_lang', next);
   };
 
   return (
@@ -124,4 +120,3 @@ export default function ToolsPage() {
     </div>
   );
 }
-
