@@ -36,5 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...entry('/blog/raise-credit-score-100-points', '2026-06-15', 'monthly', 0.8),
     ...entry('/blog/rent-utilities-credit-score', '2026-06-16', 'monthly', 0.8),
     ...entry('/blog/rent-reporting-platforms-2026', '2026-06-19', 'monthly', 0.8),
+    ...entry('/blog/hard-inquiry', '2026-08-05', 'monthly', 0.7),
   ]
 }

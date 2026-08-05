@@ -1,3 +1,6 @@
+// NOTE: app/[locale]/blog/page.tsx (blog index) keeps its own separate `posts` array
+// instead of importing this file — see TODO there. Adding a new article means editing
+// both this file and that one until they're consolidated.
 export const blogPosts = [
   {
     slug: "fico-8-vs-fico-10t",
@@ -10,6 +13,12 @@ export const blogPosts = [
     titleEn: "Debt Avalanche vs Debt Snowball: Which Pays Off Debt Faster",
     titleEs: "Avalancha vs Bola de Nieve: Cuál Liquida Deudas Más Rápido",
     tag: "Debt",
+  },
+  {
+    slug: "hard-inquiry",
+    titleEn: "What Is a Hard Inquiry? How It Affects Your Credit Score",
+    titleEs: "¿Qué es un Hard Inquiry? Cómo Afecta tu Credit Score",
+    tag: "Credit Score",
   },
   {
     slug: "raise-credit-score-100-points",
