@@ -12,6 +12,12 @@ export const blogPosts = [
     tag: "Debt",
   },
   {
+    slug: "hard-inquiry",
+    titleEn: "What Is a Hard Inquiry? How It Affects Your Credit Score",
+    titleEs: "¿Qué es un Hard Inquiry? Cómo Afecta tu Credit Score",
+    tag: "Credit Score",
+  },
+  {
     slug: "raise-credit-score-100-points",
     titleEn: "How to Raise Your Credit Score 100 Points in 6 Months",
     titleEs: "Cómo Subir tu Credit Score 100 Puntos en 6 Meses",
