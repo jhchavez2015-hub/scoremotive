@@ -48,6 +48,12 @@ const content: Record<Locale, {
   },
 };
 
+// TODO(tech-debt): This `posts` array duplicates app/[locale]/blog/posts-meta.ts
+// (title/slug/tag are repeated in both places with extra fields here: descriptions,
+// date, readTime, tag colors). Adding a new article currently means editing both
+// files. Consider consolidating into a single shared data source both files import
+// from, so a new article only needs to be added in one place. Deferred — not blocking
+// the current fix, revisit when there's time.
 const posts = [
   {
     slug: "fico-8-vs-fico-10t",
@@ -72,6 +78,18 @@ const posts = [
     tag: "Debt",
     tagColor: "rgba(6,214,160,0.1)",
     tagText: "#06d6a0",
+  },
+  {
+    slug: "hard-inquiry",
+    titleEn: "What Is a Hard Inquiry? How It Affects Your Credit Score",
+    titleEs: "¿Qué es un Hard Inquiry? Cómo Afecta tu Credit Score",
+    descEn: "A hard inquiry can lower your score by a few points — but not as much, or for as long, as most people think.",
+    descEs: "Un hard inquiry puede bajar tu puntaje unos pocos puntos — pero no tanto, ni por tanto tiempo, como mucha gente cree.",
+    date: "August 2026",
+    readTime: "3 min",
+    tag: "Credit Score",
+    tagColor: "rgba(79,124,255,0.1)",
+    tagText: "#7ba7ff",
   },
   {
     slug: "raise-credit-score-100-points",
@@ -196,7 +214,7 @@ export default async function BlogPage({
           {posts.map((post) => (
             <a
               key={post.slug}
-              href={`/blog/${post.slug}`}
+              href={`/${locale}/blog/${post.slug}`}
               className="block bg-[#0d1220] border border-white/[0.07] rounded-2xl p-7 hover:border-white/[0.15] hover:-translate-y-0.5 transition-all duration-200 group"
             >
               <div className="flex items-start justify-between gap-4 flex-wrap">
