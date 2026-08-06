@@ -160,6 +160,7 @@ export default async function Home({
             <nav className="flex items-center gap-2">
               <a href={`/${locale}/tools`} className="text-[11px] font-bold text-[#7ba7ff] bg-[rgba(79,124,255,0.1)] hover:bg-[rgba(79,124,255,0.2)] border border-[rgba(79,124,255,0.25)] px-3 py-1.5 rounded-lg transition-all">{t.navTools}</a>
               <a href={`/${locale}/blog`} className="text-[11px] font-bold text-[#a78bfa] bg-[rgba(124,58,237,0.1)] hover:bg-[rgba(124,58,237,0.2)] border border-[rgba(124,58,237,0.25)] px-3 py-1.5 rounded-lg transition-all">Blog</a>
+              <a href={`/${locale}/glossary`} className="text-[11px] font-bold text-[#06d6a0] bg-[rgba(6,214,160,0.1)] hover:bg-[rgba(6,214,160,0.2)] border border-[rgba(6,214,160,0.25)] px-3 py-1.5 rounded-lg transition-all">{isEs ? "Glosario" : "Glossary"}</a>
             </nav>
             <Link href={`/${otherLocale}`} className="flex items-center gap-1.5 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.12] text-xs px-3 py-1.5 rounded-xl transition font-bold text-[#8892a4]">
               🌐 {isEs ? "EN" : "ES"}
