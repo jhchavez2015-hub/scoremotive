@@ -171,10 +171,10 @@ export default async function Home({
       {/* Hero */}
       <section className="relative z-10 pt-40 pb-24 text-center px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-[rgba(79,124,255,0.08)] border border-[rgba(79,124,255,0.2)] rounded-full px-4 py-1.5 text-xs font-medium text-[#7ba7ff] mb-8">
+          <Link href={`/${locale}/tools`} className="inline-flex items-center gap-2 bg-[rgba(79,124,255,0.08)] hover:bg-[rgba(79,124,255,0.14)] border border-[rgba(79,124,255,0.2)] rounded-full px-4 py-1.5 text-xs font-medium text-[#7ba7ff] mb-8 transition-colors">
             <span className="w-1.5 h-1.5 rounded-full bg-[#06d6a0] animate-pulse" />
             {t.pill}
-          </div>
+          </Link>
 
           <h1 className="text-[clamp(42px,7vw,76px)] font-black leading-[1.05] tracking-[-2px] mb-3">
             <span className="block text-[#f0f2f7]">{t.h1a}</span>

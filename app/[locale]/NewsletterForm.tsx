@@ -44,19 +44,19 @@ export default function NewsletterForm({
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex gap-3 max-w-md mx-auto mb-6">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-6 px-4 sm:px-0">
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder={placeholder}
           required
-          className="flex-1 bg-white/[0.05] border border-white/[0.12] rounded-xl px-4 py-3.5 text-sm text-[#f0f2f7] placeholder-[#8892a4] outline-none focus:border-[#4f7cff] focus:bg-[rgba(79,124,255,0.05)] transition-all"
+          className="flex-1 min-w-0 bg-white/[0.05] border border-white/[0.12] rounded-xl px-4 py-3.5 text-sm text-[#f0f2f7] placeholder-[#8892a4] outline-none focus:border-[#4f7cff] focus:bg-[rgba(79,124,255,0.05)] transition-all"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="bg-gradient-to-r from-[#4f7cff] to-[#7c3aed] text-white font-medium text-sm px-6 py-3.5 rounded-xl whitespace-nowrap hover:opacity-90 hover:-translate-y-[1px] active:translate-y-0 transition-all disabled:opacity-60"
+          className="bg-gradient-to-r from-[#4f7cff] to-[#7c3aed] text-white font-medium text-sm px-6 py-3.5 rounded-xl whitespace-nowrap hover:opacity-90 hover:-translate-y-[1px] active:translate-y-0 transition-all disabled:opacity-60 w-full sm:w-auto"
         >
           {status === "loading" ? "..." : joinBtn}
         </button>
