@@ -38,4 +38,10 @@ export const blogPosts = [
     titleEs: "Las 10 Mejores Plataformas para Reportar Renta y Servicios al Buró de Crédito en 2026",
     tag: "Credit Score",
   },
+  {
+    slug: "how-to-dispute-credit-report-errors",
+    titleEn: "How to Dispute Credit Report Errors (Step by Step, for Free)",
+    titleEs: "Cómo Disputar Errores en tu Reporte de Crédito (Paso a Paso y Gratis)",
+    tag: "Credit Score",
+  },
 ];
