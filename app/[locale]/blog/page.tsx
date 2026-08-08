@@ -127,6 +127,18 @@ const posts = [
     tagColor: "rgba(79,124,255,0.1)",
     tagText: "#7ba7ff",
   },
+  {
+    slug: "how-to-dispute-credit-report-errors",
+    titleEn: "How to Dispute Credit Report Errors (Step by Step, for Free)",
+    titleEs: "Cómo Disputar Errores en tu Reporte de Crédito (Paso a Paso y Gratis)",
+    descEn: "1 in 5 credit reports has an error. Here's exactly what to check, how to pull your free report, and how to dispute mistakes directly with the bureaus — no paid service needed.",
+    descEs: "1 de cada 5 reportes de crédito tiene un error. Aquí te decimos exactamente qué revisar, cómo pedir tu reporte gratis y cómo disputar errores directo con los burós — sin pagar a nadie.",
+    date: "August 2026",
+    readTime: "6 min",
+    tag: "Credit Score",
+    tagColor: "rgba(79,124,255,0.1)",
+    tagText: "#7ba7ff",
+  },
 ];
 
 export async function generateMetadata({
