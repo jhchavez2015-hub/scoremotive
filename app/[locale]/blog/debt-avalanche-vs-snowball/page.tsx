@@ -94,7 +94,10 @@ export default async function DebtArticlePage({
   const t = content[isEs ? "es" : "en"];
   const baseUrl = "https://scoremotive.com";
   const url = `${baseUrl}/${locale}/blog/${SLUG}`;
-  const related = blogPosts.filter((p) => p.slug !== SLUG).slice(0, 3);
+  const currentTag = blogPosts.find((p) => p.slug === SLUG)?.tag;
+  const sameTag = blogPosts.filter((p) => p.slug !== SLUG && p.tag === currentTag);
+  const otherTag = blogPosts.filter((p) => p.slug !== SLUG && p.tag !== currentTag);
+  const related = [...sameTag, ...otherTag].slice(0, 3);
 
   const articleJsonLd = {
     "@context": "https://schema.org",
