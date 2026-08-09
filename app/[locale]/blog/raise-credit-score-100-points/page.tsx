@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE_NAME, OG_TYPE_ARTICLE, OG_LOCALE, TWITTER_CARD } from "../../seo-defaults";
 import { blogPosts } from "../posts-meta";
+import AffiliateDisclosure from "@/components/AffiliateDisclosure";
 
 type Locale = "en" | "es";
 
@@ -271,6 +272,13 @@ export default async function RaiseScoreArticlePage({
                     </div>
                   ))}
                 </div>
+
+                <p className="mt-2">
+                  ¿Prefieres monitoreo automático en vez de revisar manualmente?{" "}
+                  <a href="/go/smartcredit" className="text-[#06d6a0] underline hover:text-[#4f7cff] transition-colors">SmartCredit</a>
+                  {" "}rastrea tu reporte en tiempo real y te alerta ante cambios — útil si prefieres no revisarlo tú mismo cada mes.
+                </p>
+                <AffiliateDisclosure locale="es" />
               </section>
 
               <section>
@@ -442,6 +450,13 @@ export default async function RaiseScoreArticlePage({
                     </div>
                   ))}
                 </div>
+
+                <p className="mt-2">
+                  Prefer automatic monitoring instead of checking manually?{" "}
+                  <a href="/go/smartcredit" className="text-[#06d6a0] underline hover:text-[#4f7cff] transition-colors">SmartCredit</a>
+                  {" "}tracks your report in real time and alerts you to changes — useful if you'd rather not check it yourself every month.
+                </p>
+                <AffiliateDisclosure locale="en" />
               </section>
 
               <section>
