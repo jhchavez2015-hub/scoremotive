@@ -106,4 +106,17 @@ export const blogPosts: PostMeta[] = [
     tagText: "#7ba7ff",
     category: "credito",
   },
+  {
+    slug: "tax-lien-credit-score",
+    titleEn: "Do Tax Liens Still Affect Your Credit Score? What Changed in 2018",
+    titleEs: "¿Los Tax Liens Todavía Afectan tu Puntaje de Crédito? Qué Cambió en 2018",
+    descEn: "Millions of people still believe a tax lien can tank their credit score. Here's what actually changed — and why a lien can still block you even if your score never moves.",
+    descEs: "Millones de personas todavía creen que un tax lien puede hundir su puntaje de crédito. Esto es lo que realmente cambió — y por qué un lien te puede seguir bloqueando aunque tu puntaje nunca se mueva.",
+    date: "August 2026",
+    readTime: "7 min",
+    tag: "Credit Score",
+    tagColor: "rgba(79,124,255,0.1)",
+    tagText: "#7ba7ff",
+    category: "taxes",
+  },
 ];
