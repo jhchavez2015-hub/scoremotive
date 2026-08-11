@@ -39,7 +39,7 @@ export async function GET(
   }
 
   console.log(
-    `[affiliate-redirect] HIT slug="${slug}" network="${link.network}" category="${link.category}" referer="${referer}" time="${timestamp}"`
+    `[affiliate-redirect] HIT slug="${slug}" network="${link.network}" category="${link.category}" analyticsLabel="${link.analyticsLabel}" referer="${referer}" time="${timestamp}"`
   );
 
   return NextResponse.redirect(link.url, { status: 302 });
