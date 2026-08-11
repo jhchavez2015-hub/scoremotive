@@ -1,4 +1,6 @@
 import { MetadataRoute } from 'next'
+import { blogPosts } from './[locale]/blog/posts-meta'
+import { glossaryTerms } from './[locale]/glossary/glossary-meta'
 
 const baseUrl = 'https://scoremotive.com'
 const locales = ['en', 'es'] as const
@@ -24,6 +26,22 @@ function entry(
   }))
 }
 
+// Converts "June 2026" -> "2026-06-01". Falls back to today's date if the
+// format doesn't match, so a malformed date in posts-meta.ts never breaks the build.
+function parsePostDate(dateStr: string): string {
+  const months: Record<string, string> = {
+    January: '01', February: '02', March: '03', April: '04',
+    May: '05', June: '06', July: '07', August: '08',
+    September: '09', October: '10', November: '11', December: '12',
+  }
+  const [monthName, year] = dateStr.split(' ')
+  const month = months[monthName]
+  if (!month || !year) return new Date().toISOString().split('T')[0]
+  return `${year}-${month}-01`
+}
+
+const today = new Date().toISOString().split('T')[0]
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...entry('', '2026-06-20', 'weekly', 1),
@@ -31,11 +49,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...entry('/tools', '2026-06-20', 'monthly', 0.9),
     ...entry('/about', '2026-06-11', 'monthly', 0.6),
     ...entry('/legal', '2026-06-11', 'yearly', 0.4),
-    ...entry('/blog/fico-8-vs-fico-10t', '2026-06-11', 'monthly', 0.8),
-    ...entry('/blog/debt-avalanche-vs-snowball', '2026-06-15', 'monthly', 0.8),
-    ...entry('/blog/raise-credit-score-100-points', '2026-06-15', 'monthly', 0.8),
-    ...entry('/blog/rent-utilities-credit-score', '2026-06-16', 'monthly', 0.8),
-    ...entry('/blog/rent-reporting-platforms-2026', '2026-06-19', 'monthly', 0.8),
-    ...entry('/blog/hard-inquiry', '2026-08-05', 'monthly', 0.7),
+    ...entry('/glossary', today, 'monthly', 0.7),
+    ...blogPosts.flatMap((post) =>
+      entry(`/blog/${post.slug}`, parsePostDate(post.date), 'monthly', 0.8)
+    ),
+    ...glossaryTerms.flatMap((term) =>
+      entry(`/glossary/${term.slug}`, today, 'monthly', 0.6)
+    ),
   ]
 }
