@@ -14,6 +14,8 @@ export type AffiliateLink = {
   category: string;
   active: boolean;
   fallbackUrl?: string;
+  lastVerified: string; // ISO date, e.g. "2026-08-11"
+  analyticsLabel: string; // slug-safe label sent to GA on click, e.g. "smartcredit_trial"
 };
 
 export const affiliateLinks: Record<string, AffiliateLink> = {
@@ -22,5 +24,7 @@ export const affiliateLinks: Record<string, AffiliateLink> = {
     network: "CJ",
     category: "credit-monitoring",
     active: true,
+    lastVerified: "2026-08-11",
+    analyticsLabel: "smartcredit_trial",
   },
 };
