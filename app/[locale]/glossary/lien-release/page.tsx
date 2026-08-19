@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SITE_NAME, OG_LOCALE, TWITTER_CARD } from "../../seo-defaults";
 import { glossaryTerms } from "../glossary-meta";
+import DetailPageHeader from "@/components/DetailPageHeader";
 
 type Locale = "en" | "es";
 
@@ -164,16 +164,12 @@ export default async function LienReleaseGlossaryPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <header className="border-b border-white/[0.07] bg-[rgba(8,11,18,0.95)] sticky top-0 z-40 backdrop-blur-md">
-        <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
-          <a href={`/${locale}/glossary`} className="flex items-center gap-2 text-sm font-bold text-white hover:text-[#4f7cff] transition-colors">
-            {t.navBack}
-          </a>
-          <Link href={`/${otherLocale}/glossary/${SLUG}`} className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs px-3 py-1.5 rounded-xl transition font-bold text-slate-300">
-            🌐 {isEs ? "EN" : "ES"}
-          </Link>
-        </div>
-      </header>
+      <DetailPageHeader
+        backHref={`/${locale}/glossary`}
+        backLabel={t.navBack}
+        otherLocaleHref={`/${otherLocale}/glossary/${SLUG}`}
+        isEs={isEs}
+      />
 
       <article className="max-w-3xl mx-auto px-6 py-16">
 
