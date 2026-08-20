@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SectionHeader from "@/components/SectionHeader";
 import { SITE_NAME, OG_TYPE_ARTICLE, OG_LOCALE, TWITTER_CARD } from "../seo-defaults";
 import { glossaryTerms } from "./glossary-meta";
 
 type Locale = "en" | "es";
 
-const content: Record<Locale, { title: string; subtitle: string; navBack: string }> = {
+const content: Record<Locale, { title: string; subtitle: string; navLabel: string }> = {
   en: {
     title: "Credit Glossary",
     subtitle: "Plain-English definitions of the credit terms that actually matter.",
-    navBack: "← ScoreMotive",
+    navLabel: "Glossary",
   },
   es: {
     title: "Glosario de Crédito",
     subtitle: "Definiciones claras de los términos de crédito que realmente importan.",
-    navBack: "← ScoreMotive",
+    navLabel: "Glosario",
   },
 };
 
@@ -63,6 +64,7 @@ export default async function GlossaryIndexPage({
 }) {
   const { locale } = await params;
   const isEs = locale === "es";
+  const otherLocale: Locale = isEs ? "en" : "es";
   const t = content[isEs ? "es" : "en"];
 
   const jsonLd = {
@@ -85,13 +87,13 @@ export default async function GlossaryIndexPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <header className="border-b border-white/[0.07] bg-[rgba(8,11,18,0.95)] sticky top-0 z-40 backdrop-blur-md">
-        <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
-          <a href={`/${locale}`} className="flex items-center gap-2 text-sm font-bold text-white hover:text-[#4f7cff] transition-colors">
-            {t.navBack}
-          </a>
-        </div>
-      </header>
+      <SectionHeader
+        maxWidth="3xl"
+        backHref={`/${locale}`}
+        label={t.navLabel}
+        otherLocaleHref={`/${otherLocale}/glossary`}
+        isEs={isEs}
+      />
 
       <div className="max-w-3xl mx-auto px-6 py-16">
         <h1 className="text-3xl md:text-4xl font-black tracking-[-1px] leading-tight mb-4">
