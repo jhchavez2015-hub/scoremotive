@@ -6,6 +6,7 @@ import {
 import { translations } from './translations';
 import { safeLocalStorageSet } from './utils';
 import type { Debt, DebtResult } from './types';
+import { calcularEstrategia } from '../../../lib/debt-engine';
 
 // FIX #4 (original): trunca texto al ancho de columna disponible para que
 // nombres largos no se monten sobre la siguiente columna en el PDF.
@@ -214,59 +215,20 @@ export default function DebtTab({
   const calcularEstrategiaGlobal = (e: React.FormEvent) => {
     e.preventDefault();
     if (hayAmortizacionNegativa) { return; }
-    const inyeccionMensualFija = parseFloat(globalPagoExtra) || 0;
-    const pagoUnicoDisponible = parseFloat(pagoUnicoSolaVez) || 0;
-
-    let activeReg = debts.map(d => ({ balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0);
-    let mesesRegular = 0, totalInteresesRegular = 0;
-    while (activeReg.length > 0 && mesesRegular < 360) {
-      mesesRegular++;
-      activeReg = activeReg.filter(d => { const im = d.balance * d.r; totalInteresesRegular += im; const pe = Math.min(d.pmt, d.balance + im); d.balance = (d.balance + im) - pe; return d.balance > 0.01; });
-    }
-    const capRegular = activeReg.length > 0;
-
-    const ordenAvalanche = [...debts].filter(d => parseFloat(d.balance) > 0).sort((a, b) => parseFloat(b.interesAnual) - parseFloat(a.interesAnual)).map(d => d.nombre);
-    let activeAce = debts.map(d => ({ nombre: d.nombre, balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0).sort((a, b) => b.r - a.r);
-    let mesesAcelerado = 0, totalInteresesAcelerado = 0;
-    let pagosLiberadosAce = 0;
-    while (activeAce.length > 0 && mesesAcelerado < 360) {
-      mesesAcelerado++;
-      let bolsa = inyeccionMensualFija + pagosLiberadosAce + (mesesAcelerado === 1 ? pagoUnicoDisponible : 0);
-      activeAce.forEach(d => { const im = d.balance * d.r; totalInteresesAcelerado += im; d.balance += im; });
-      activeAce.forEach(d => { const p = Math.min(d.pmt, d.balance); d.balance -= p; });
-      for (const d of activeAce) { if (d.balance > 0 && bolsa > 0) { const extra = Math.min(bolsa, d.balance); d.balance -= extra; bolsa -= extra; } }
-      const eliminadasAce = activeAce.filter(d => d.balance <= 0.01);
-      if (aplicarPagosLiberados) pagosLiberadosAce += eliminadasAce.reduce((sum, d) => sum + d.pmt, 0);
-      activeAce = activeAce.filter(d => d.balance > 0.01);
-    }
-    const capAcelerado = activeAce.length > 0;
-
-    const ordenSnowball = [...debts].filter(d => parseFloat(d.balance) > 0).sort((a, b) => parseFloat(a.balance) - parseFloat(b.balance)).map(d => d.nombre);
-    let activeSnow = debts.map(d => ({ nombre: d.nombre, balance: parseFloat(d.balance) || 0, r: ((parseFloat(d.interesAnual) || 0) / 100) / 12, pmt: parseFloat(d.pagoMensual) || 0 })).filter(d => d.balance > 0).sort((a, b) => a.balance - b.balance);
-    let mesesSnowball = 0, totalInteresesSnowball = 0;
-    let pagosLiberadosSnow = 0;
-    while (activeSnow.length > 0 && mesesSnowball < 360) {
-      mesesSnowball++;
-      let bolsa = inyeccionMensualFija + pagosLiberadosSnow + (mesesSnowball === 1 ? pagoUnicoDisponible : 0);
-      activeSnow.forEach(d => { const im = d.balance * d.r; totalInteresesSnowball += im; d.balance += im; });
-      activeSnow.forEach(d => { const p = Math.min(d.pmt, d.balance); d.balance -= p; });
-      for (const d of activeSnow) { if (d.balance > 0 && bolsa > 0) { const extra = Math.min(bolsa, d.balance); d.balance -= extra; bolsa -= extra; } }
-      const eliminadasSnow = activeSnow.filter(d => d.balance <= 0.01);
-      if (aplicarPagosLiberados) pagosLiberadosSnow += eliminadasSnow.reduce((sum, d) => sum + d.pmt, 0);
-      activeSnow = activeSnow.filter(d => d.balance > 0.01);
-    }
-    const capSnowball = activeSnow.length > 0;
-
-    setDebtResult({
-      mesesRegular, interesesRegular: Math.max(0, totalInteresesRegular),
-      mesesAcelerado, interesesAcelerado: Math.max(0, totalInteresesAcelerado),
-      mesesAhorrados: Math.max(0, mesesRegular - mesesAcelerado),
-      dineroAhorrado: Math.max(0, totalInteresesRegular - totalInteresesAcelerado),
-      mesesSnowball, interesesSnowball: Math.max(0, totalInteresesSnowball),
-      dineroAhorradoSnowball: Math.max(0, totalInteresesRegular - totalInteresesSnowball),
-      ordenAvalanche, ordenSnowball,
-      capAlcanzado: capRegular || capAcelerado || capSnowball,
-    });
+    const deudasParseadas = debts
+      .map(d => ({
+        nombre: d.nombre,
+        balance: parseFloat(d.balance) || 0,
+        apr: parseFloat(d.interesAnual) || 0,
+        pmt: parseFloat(d.pagoMensual) || 0,
+      }))
+      .filter(d => d.balance > 0);
+    setDebtResult(calcularEstrategia(
+      deudasParseadas,
+      parseFloat(globalPagoExtra) || 0,
+      parseFloat(pagoUnicoSolaVez) || 0,
+      aplicarPagosLiberados,
+    ));
   };
 
   const recSinDiferencia = debtResult !== null &&
