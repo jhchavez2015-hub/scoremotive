@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { CreditCard, TrendingDown, BarChart3, Globe, ShieldAlert, Info } from 'lucide-react';
+import { CreditCard, TrendingDown, Globe, ShieldAlert, Info } from 'lucide-react';
+import Logo from '@/components/Logo';
 import { translations } from './translations';
 import { safeLocalStorageSet } from './utils';
 import type { Debt } from './types';
@@ -74,9 +75,7 @@ export default function ToolsClient({ initialLocale }: { initialLocale: 'en' | '
         </div>
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-gradient-to-tr from-indigo-500 via-purple-500 to-violet-600 p-1.5 rounded-lg shadow-lg shadow-indigo-500/20">
-              <BarChart3 className="h-3.5 w-3.5 text-white" />
-            </div>
+            <Logo showText={false} size={28} alt="" />
             <div className="flex items-center gap-1.5">
               <a href="/" className="font-bold text-sm text-white tracking-tight hover:text-indigo-400 transition-colors">{t.title}</a>
               <span className="text-[9px] font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 px-1.5 py-0.5 rounded-full hidden sm:inline">{t.version}</span>

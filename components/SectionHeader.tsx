@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "./Logo";
 
 type SectionHeaderProps = {
   maxWidth: "3xl" | "4xl";
@@ -27,7 +28,7 @@ export default function SectionHeader({
           href={backHref}
           className="flex items-center gap-2 text-sm font-bold text-white hover:text-[#4f7cff] transition-colors"
         >
-          ← ScoreMotive
+          ← <Logo showText={false} size={24} alt="" /> ScoreMotive
         </a>
         <div className="flex items-center gap-3">
           <span className="text-xs text-[#8892a4]">{label}</span>
