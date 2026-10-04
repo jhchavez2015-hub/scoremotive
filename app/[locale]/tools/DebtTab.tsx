@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   Wallet, Plus, Trash2, AlertTriangle, Download, TrendingDown, DollarSign, Zap, Lightbulb,
 } from 'lucide-react';
@@ -172,7 +172,6 @@ export default function DebtTab({
   const [aplicarPagosLiberados, setAplicarPagosLiberados] = useState(true);
   const [pagoUnicoSolaVez, setPagoUnicoSolaVez] = useState('1500');
   const [debtResult, setDebtResult] = useState<DebtResult | null>(null);
-  const [hayAmortizacionNegativa, setHayAmortizacionNegativa] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -183,18 +182,19 @@ export default function DebtTab({
     }
   }, []);
 
-  // Chequeo de amortización negativa: recalcula cada vez que cambian las
-  // deudas (prop compartida con FicoTab a través de ToolsPage).
-  useEffect(() => {
-    let peligro = false;
-    debts.forEach(d => {
-      const bal = parseFloat(d.balance) || 0;
-      const rate = ((parseFloat(d.interesAnual) || 0) / 100) / 12;
-      const pmt = parseFloat(d.pagoMensual) || 0;
-      if (bal > 0 && pmt <= bal * rate) peligro = true;
-    });
-    setHayAmortizacionNegativa(peligro);
-  }, [debts]);
+  // Chequeo de amortización negativa: deudas cuyo pago mínimo no cubre el
+  // interés mensual (misma condición que antes). `minimo` = balance × APR/12.
+  const deudasNegativas = useMemo(() => debts.flatMap(d => {
+    const bal = parseFloat(d.balance) || 0;
+    const rate = ((parseFloat(d.interesAnual) || 0) / 100) / 12;
+    const pmt = parseFloat(d.pagoMensual) || 0;
+    return bal > 0 && pmt <= bal * rate ? [{ id: d.id, nombre: d.nombre, minimo: bal * rate }] : [];
+  }), [debts]);
+  const hayAmortizacionNegativa = deudasNegativas.length > 0;
+
+  // Un resultado calculado con otros datos ya no es válido: se limpia al
+  // cambiar cualquier entrada. Calcular no está entre las dependencias.
+  useEffect(() => { setDebtResult(null); }, [debts, globalPagoExtra, pagoUnicoSolaVez, aplicarPagosLiberados]);
 
   useEffect(() => { safeLocalStorageSet('scoremotive_pago_extra', globalPagoExtra); }, [globalPagoExtra]);
   useEffect(() => { safeLocalStorageSet('scoremotive_pago_unico', pagoUnicoSolaVez); }, [pagoUnicoSolaVez]);
@@ -269,6 +269,10 @@ export default function DebtTab({
     });
   };
 
+  const recSinDiferencia = debtResult !== null &&
+    debtResult.mesesAcelerado === debtResult.mesesSnowball &&
+    Math.round(Math.abs(debtResult.dineroAhorrado - debtResult.dineroAhorradoSnowball)) === 0;
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-5 space-y-4">
@@ -280,7 +284,19 @@ export default function DebtTab({
         {hayAmortizacionNegativa && (
           <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex gap-3 items-start">
             <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5 animate-pulse" />
-            <div><h5 className="text-xs font-bold">{t.alertaAmortizacion}</h5><p className="text-[11px] text-rose-300/80 mt-0.5 leading-relaxed">{t.alertaAmortizacionDesc}</p></div>
+            <div>
+              <h5 className="text-xs font-bold">{t.alertaAmortizacion}</h5>
+              <p className="text-[11px] text-rose-300/80 mt-0.5 leading-relaxed">{t.alertaAmortizacionDesc}</p>
+              <ul className="mt-1.5 space-y-0.5 text-[11px] text-rose-300/80 list-disc pl-4">
+                {deudasNegativas.map(d => (
+                  <li key={d.id}>
+                    {t.alertaAmortizacionItem
+                      .replace('{min}', () => ((Math.floor(d.minimo * 100) + 1) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
+                      .replace('{name}', () => d.nombre)}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         )}
 
@@ -330,7 +346,8 @@ export default function DebtTab({
             </div>
           </div>
 
-          <button type="submit" className="btn-primary w-full text-white text-xs font-bold py-3 rounded-xl flex items-center justify-center gap-2">
+          <button type="submit" disabled={hayAmortizacionNegativa} aria-disabled={hayAmortizacionNegativa}
+            className="btn-primary w-full text-white text-xs font-bold py-3 rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none">
             <TrendingDown className="h-4 w-4" /> {t.btnCalcularDeudas}
           </button>
         </form>
@@ -440,7 +457,7 @@ export default function DebtTab({
                 {lang === 'es' ? 'Recomendación' : 'Recommendation'}
               </h4>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                {lang === 'es'
+                {recSinDiferencia ? t.recSinDiferencia : lang === 'es'
                   ? `La Avalancha ahorra $${Math.abs(debtResult.dineroAhorrado - debtResult.dineroAhorradoSnowball).toLocaleString('en-US', { maximumFractionDigits: 0 })} más en intereses que la Bola de Nieve. Si buscas maximizar el ahorro, elige Avalancha. Si prefieres eliminar deudas pequeñas primero para mantener la motivación, elige Bola de Nieve. Cualquiera de las dos es significativamente mejor que solo pagar mínimos.`
                   : `Avalanche saves $${Math.abs(debtResult.dineroAhorrado - debtResult.dineroAhorradoSnowball).toLocaleString('en-US', { maximumFractionDigits: 0 })} more in interest than Snowball. If you want to maximize savings, choose Avalanche. If you prefer eliminating small debts first to stay motivated, choose Snowball. Either one is significantly better than only paying minimums.`}
               </p>
