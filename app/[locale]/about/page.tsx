@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SectionHeader from "@/components/SectionHeader";
+import Logo from "@/components/Logo";
 import { SITE_NAME, OG_TYPE, OG_LOCALE, TWITTER_CARD } from "../seo-defaults";
 
 type Locale = "en" | "es";
@@ -126,8 +127,8 @@ export default async function AboutPage({
 
         {/* Hero */}
         <div className="mb-16 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#4f7cff] to-[#7c3aed] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-indigo-500/20">
-            <svg className="w-8 h-8 fill-white" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <div className="flex justify-center mb-6">
+            <Logo showText={false} size={64} alt="" />
           </div>
           <span className="text-[11px] uppercase tracking-[3px] text-[#4f7cff] font-medium">
             {t.eyebrow}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MobileNavMenu from "./MobileNavMenu";
+import Logo from "./Logo";
 
 type HeaderProps = {
   locale: string;
@@ -36,12 +37,9 @@ export default function Header({ locale, otherLocale, isEs, t }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md bg-[rgba(8,11,18,0.85)] border-b border-white/[0.07]">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#4f7cff] to-[#7c3aed] flex items-center justify-center shadow-lg">
-            <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <span className="font-bold text-lg tracking-tight">ScoreMotive</span>
-        </div>
+        <Link href={`/${locale}`} className="flex items-center">
+          <Logo />
+        </Link>
 
         <div className="flex items-center gap-3">
           {/* Desktop nav — exact same links/classes as before, just hidden below md */}
