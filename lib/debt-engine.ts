@@ -8,6 +8,34 @@ export interface DebtInput {
   pmt: number;
 }
 
+interface DeudaSim { nombre: string; balance: number; r: number; pmt: number }
+
+// Simulación acelerada: la `bolsa` (extra + pagos liberados + pago único en el
+// mes 1) se aplica a las deudas en el orden dado por `criterio`, que se fija
+// una sola vez al inicio. Avalancha y Bola de Nieve solo difieren en él.
+function simularAcelerada(
+  deudas: DeudaSim[],
+  criterio: (a: DeudaSim, b: DeudaSim) => number,
+  inyeccionMensualFija: number,
+  pagoUnicoDisponible: number,
+  aplicarPagosLiberados: boolean,
+): { meses: number; intereses: number; cap: boolean } {
+  let active = [...deudas].sort(criterio);
+  let meses = 0, totalIntereses = 0;
+  let pagosLiberados = 0;
+  while (active.length > 0 && meses < 360) {
+    meses++;
+    let bolsa = inyeccionMensualFija + pagosLiberados + (meses === 1 ? pagoUnicoDisponible : 0);
+    active.forEach(d => { const im = d.balance * d.r; totalIntereses += im; d.balance += im; });
+    active.forEach(d => { const p = Math.min(d.pmt, d.balance); d.balance -= p; });
+    for (const d of active) { if (d.balance > 0 && bolsa > 0) { const extra = Math.min(bolsa, d.balance); d.balance -= extra; bolsa -= extra; } }
+    const eliminadas = active.filter(d => d.balance <= 0.01);
+    if (aplicarPagosLiberados) pagosLiberados += eliminadas.reduce((sum, d) => sum + d.pmt, 0);
+    active = active.filter(d => d.balance > 0.01);
+  }
+  return { meses, intereses: totalIntereses, cap: active.length > 0 };
+}
+
 export function calcularEstrategia(
   deudas: DebtInput[],
   pagoExtra: number,
@@ -27,45 +55,19 @@ export function calcularEstrategia(
   const capRegular = activeReg.length > 0;
 
   const ordenAvalanche = [...deudas].sort((a, b) => b.apr - a.apr).map(d => d.nombre);
-  let activeAce = copia().sort((a, b) => b.r - a.r);
-  let mesesAcelerado = 0, totalInteresesAcelerado = 0;
-  let pagosLiberadosAce = 0;
-  while (activeAce.length > 0 && mesesAcelerado < 360) {
-    mesesAcelerado++;
-    let bolsa = inyeccionMensualFija + pagosLiberadosAce + (mesesAcelerado === 1 ? pagoUnicoDisponible : 0);
-    activeAce.forEach(d => { const im = d.balance * d.r; totalInteresesAcelerado += im; d.balance += im; });
-    activeAce.forEach(d => { const p = Math.min(d.pmt, d.balance); d.balance -= p; });
-    for (const d of activeAce) { if (d.balance > 0 && bolsa > 0) { const extra = Math.min(bolsa, d.balance); d.balance -= extra; bolsa -= extra; } }
-    const eliminadasAce = activeAce.filter(d => d.balance <= 0.01);
-    if (aplicarPagosLiberados) pagosLiberadosAce += eliminadasAce.reduce((sum, d) => sum + d.pmt, 0);
-    activeAce = activeAce.filter(d => d.balance > 0.01);
-  }
-  const capAcelerado = activeAce.length > 0;
+  const avalancha = simularAcelerada(copia(), (a, b) => b.r - a.r, inyeccionMensualFija, pagoUnicoDisponible, aplicarPagosLiberados);
 
   const ordenSnowball = [...deudas].sort((a, b) => a.balance - b.balance).map(d => d.nombre);
-  let activeSnow = copia().sort((a, b) => a.balance - b.balance);
-  let mesesSnowball = 0, totalInteresesSnowball = 0;
-  let pagosLiberadosSnow = 0;
-  while (activeSnow.length > 0 && mesesSnowball < 360) {
-    mesesSnowball++;
-    let bolsa = inyeccionMensualFija + pagosLiberadosSnow + (mesesSnowball === 1 ? pagoUnicoDisponible : 0);
-    activeSnow.forEach(d => { const im = d.balance * d.r; totalInteresesSnowball += im; d.balance += im; });
-    activeSnow.forEach(d => { const p = Math.min(d.pmt, d.balance); d.balance -= p; });
-    for (const d of activeSnow) { if (d.balance > 0 && bolsa > 0) { const extra = Math.min(bolsa, d.balance); d.balance -= extra; bolsa -= extra; } }
-    const eliminadasSnow = activeSnow.filter(d => d.balance <= 0.01);
-    if (aplicarPagosLiberados) pagosLiberadosSnow += eliminadasSnow.reduce((sum, d) => sum + d.pmt, 0);
-    activeSnow = activeSnow.filter(d => d.balance > 0.01);
-  }
-  const capSnowball = activeSnow.length > 0;
+  const nieve = simularAcelerada(copia(), (a, b) => a.balance - b.balance, inyeccionMensualFija, pagoUnicoDisponible, aplicarPagosLiberados);
 
   return {
     mesesRegular, interesesRegular: Math.max(0, totalInteresesRegular),
-    mesesAcelerado, interesesAcelerado: Math.max(0, totalInteresesAcelerado),
-    mesesAhorrados: Math.max(0, mesesRegular - mesesAcelerado),
-    dineroAhorrado: Math.max(0, totalInteresesRegular - totalInteresesAcelerado),
-    mesesSnowball, interesesSnowball: Math.max(0, totalInteresesSnowball),
-    dineroAhorradoSnowball: Math.max(0, totalInteresesRegular - totalInteresesSnowball),
+    mesesAcelerado: avalancha.meses, interesesAcelerado: Math.max(0, avalancha.intereses),
+    mesesAhorrados: Math.max(0, mesesRegular - avalancha.meses),
+    dineroAhorrado: Math.max(0, totalInteresesRegular - avalancha.intereses),
+    mesesSnowball: nieve.meses, interesesSnowball: Math.max(0, nieve.intereses),
+    dineroAhorradoSnowball: Math.max(0, totalInteresesRegular - nieve.intereses),
     ordenAvalanche, ordenSnowball,
-    capAlcanzado: capRegular || capAcelerado || capSnowball,
+    capAlcanzado: capRegular || avalancha.cap || nieve.cap,
   };
 }
