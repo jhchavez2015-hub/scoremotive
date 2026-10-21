@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import SectionHeader from "@/components/SectionHeader";
-import { SITE_NAME, OG_TYPE, OG_LOCALE, TWITTER_CARD } from "../seo-defaults";
+import { SITE_NAME, OG_TYPE, OG_LOCALE, TWITTER_CARD, OG_IMAGES, TWITTER_IMAGES } from "../seo-defaults";
 
 type Locale = "en" | "es";
 
@@ -137,11 +137,13 @@ export async function generateMetadata({
       siteName: SITE_NAME,
       type: OG_TYPE,
       locale: OG_LOCALE[isEs ? "es" : "en"],
+      images: OG_IMAGES,
     },
     twitter: {
       card: TWITTER_CARD,
       title: t.title,
       description: t.metaDescription,
+      images: TWITTER_IMAGES,
     },
   };
 }

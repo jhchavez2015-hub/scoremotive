@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import NewsletterForm from "./NewsletterForm";
-import { SITE_NAME, OG_TYPE, OG_LOCALE, TWITTER_CARD } from "./seo-defaults";
+import { SITE_NAME, OG_TYPE, OG_LOCALE, TWITTER_CARD, OG_IMAGES, TWITTER_IMAGES } from "./seo-defaults";
 import Header from "@/components/Header";
 
 type Locale = "en" | "es";
@@ -120,11 +120,13 @@ export async function generateMetadata({
       siteName: SITE_NAME,
       type: OG_TYPE,
       locale: OG_LOCALE[isEs ? "es" : "en"],
+      images: OG_IMAGES,
     },
     twitter: {
       card: TWITTER_CARD,
       title,
       description: t.desc,
+      images: TWITTER_IMAGES,
     },
   };
 }

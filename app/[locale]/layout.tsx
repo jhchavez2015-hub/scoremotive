@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Script from "next/script";
-import { SITE_NAME, OG_TYPE, OG_LOCALE, TWITTER_CARD } from "./seo-defaults";
+import { SITE_NAME, OG_TYPE, OG_LOCALE, TWITTER_CARD, OG_IMAGES, TWITTER_IMAGES } from "./seo-defaults";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +50,7 @@ export async function generateMetadata({
   const baseUrl = "https://scoremotive.com";
 
   return {
+    metadataBase: new URL(baseUrl),
     title: copy.title,
     description: copy.description,
     keywords: copy.keywords,
@@ -62,6 +63,7 @@ export async function generateMetadata({
       siteName: SITE_NAME,
       type: OG_TYPE,
       locale: OG_LOCALE[locale === "es" ? "es" : "en"],
+      images: OG_IMAGES,
     },
     twitter: {
       card: TWITTER_CARD,
@@ -69,6 +71,7 @@ export async function generateMetadata({
       description: copy.twitterDescription,
       site: "@scoremotive",
       creator: "@scoremotive",
+      images: TWITTER_IMAGES,
     },
     robots: {
       index: true,

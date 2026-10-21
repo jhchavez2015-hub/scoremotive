@@ -75,7 +75,7 @@ export default function ToolsClient({ initialLocale }: { initialLocale: 'en' | '
         </div>
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Logo showText={false} size={28} alt="" />
+            <Logo variant="icon" size={28} alt="" />
             <div className="flex items-center gap-1.5">
               <a href="/" className="font-bold text-sm text-white tracking-tight hover:text-indigo-400 transition-colors">{t.title}</a>
               <span className="text-[9px] font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 px-1.5 py-0.5 rounded-full hidden sm:inline">{t.version}</span>
