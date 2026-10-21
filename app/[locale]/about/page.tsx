@@ -128,7 +128,7 @@ export default async function AboutPage({
         {/* Hero */}
         <div className="mb-16 text-center">
           <div className="flex justify-center mb-6">
-            <Logo showText={false} size={64} alt="" />
+            <Logo variant="icon" size={64} alt="" />
           </div>
           <span className="text-[11px] uppercase tracking-[3px] text-[#4f7cff] font-medium">
             {t.eyebrow}

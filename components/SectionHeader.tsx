@@ -28,7 +28,7 @@ export default function SectionHeader({
           href={backHref}
           className="flex items-center gap-2 text-sm font-bold text-white hover:text-[#4f7cff] transition-colors"
         >
-          ← <Logo showText={false} size={24} alt="" /> ScoreMotive
+          ← <Logo size={22} />
         </a>
         <div className="flex items-center gap-3">
           <span className="text-xs text-[#8892a4]">{label}</span>
