@@ -142,8 +142,25 @@ export default async function Home({
   const otherLocale: Locale = isEs ? "en" : "es";
   const t = content[lang];
 
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://scoremotive.com/#organization",
+    name: SITE_NAME,
+    url: "https://scoremotive.com",
+    logo: "https://scoremotive.com/brand/icon-512.png",
+    sameAs: [
+      "https://www.instagram.com/scoremotive/",
+      "https://x.com/ScoreMotive",
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-[#080b12] text-[#f0f2f7] font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
 
       {/* Gradient Orbs */}
       <div className="fixed top-[-200px] left-[-100px] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.12)_0%,transparent_70%)] blur-[120px] pointer-events-none z-0" />
