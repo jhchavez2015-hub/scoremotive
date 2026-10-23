@@ -119,4 +119,17 @@ export const blogPosts: PostMeta[] = [
     tagText: "#7ba7ff",
     category: "taxes",
   },
+  {
+    slug: "check-credit-score-free",
+    titleEn: "How to Check Your Credit Score for Free (Without Hurting It)",
+    titleEs: "Cómo ver tu puntaje de crédito gratis y sin afectarlo",
+    descEn: "Checking your own credit is free and won't lower your score. See where to get your score and reports at no cost, and when paid monitoring is worth it.",
+    descEs: "Ver tu propio crédito es gratis y no baja tu puntaje. Descubre dónde ver tu puntaje y tus reportes sin costo, y cuándo conviene pagar por monitoreo.",
+    date: "October 2026",
+    readTime: "5 min",
+    tag: "Credit Score",
+    tagColor: "rgba(79,124,255,0.1)",
+    tagText: "#7ba7ff",
+    category: "credito",
+  },
 ];
