@@ -19,10 +19,11 @@ const content: Record<Locale, {
   disclaimerText: string;
   toolsLabel: string;
   relatedTitle: string;
+  reviewedNote: string;
 }> = {
   en: {
-    title: "The 10 Best Platforms to Report Rent and Utilities to Credit Bureaus in 2026",
-    subtitle: "We compare every platform available in the US — what they cost, what they report, and why some are worth paying for.",
+    title: "10 Rent Reporting Platforms Compared (2026)",
+    subtitle: "A side-by-side look at what each platform says it reports. Check each provider's site for current prices and details.",
     readSuffix: "min read",
     ctaTitle: "Want to know how much your score can improve?",
     ctaDesc: "Use our free Dual Score Estimator — it shows your estimated score in FICO 8 and FICO 10T and which factors to improve first.",
@@ -30,10 +31,11 @@ const content: Record<Locale, {
     disclaimerText: "ScoreMotive is an educational tool. This article contains affiliate links. Platform prices and features may change. Always verify information directly with each service before signing up. Consult a CFP before making major financial decisions.",
     toolsLabel: "Tools",
     relatedTitle: "Related Articles",
+    reviewedNote: "Last updated: October 23, 2026. Prices and features change; confirm details with each provider.",
   },
   es: {
-    title: "Las 10 Mejores Plataformas para Reportar Renta y Servicios al Buró de Crédito en 2026",
-    subtitle: "Comparamos cada plataforma disponible en USA — cuánto cuestan, qué reportan y por qué algunas vale la pena pagar.",
+    title: "10 plataformas de reporte de renta comparadas (2026)",
+    subtitle: "Una comparación lado a lado de lo que cada plataforma dice reportar. Consulta el sitio de cada proveedor para ver precios y detalles actuales.",
     readSuffix: "min lectura",
     ctaTitle: "¿Quieres saber cuánto puede subir tu puntaje?",
     ctaDesc: "Usa nuestro Estimador de Score Dual gratuito — te muestra tu puntaje estimado en FICO 8 y FICO 10T y qué factores mejorar primero.",
@@ -41,6 +43,7 @@ const content: Record<Locale, {
     disclaimerText: "ScoreMotive es una herramienta educativa. Este artículo contiene enlaces de afiliado. Los precios y características de las plataformas pueden cambiar. Verifica siempre la información directamente con cada servicio antes de registrarte. Consulta a un CFP antes de tomar decisiones financieras importantes.",
     toolsLabel: "Herramientas",
     relatedTitle: "Artículos Relacionados",
+    reviewedNote: "Última actualización: 23 de octubre de 2026. Los precios y las funciones cambian; confirma los detalles con cada proveedor.",
   },
 };
 
@@ -106,7 +109,7 @@ export default async function PlatformsArticlePage({
     headline: t.title,
     description: t.subtitle,
     datePublished: "2026-06-16",
-    dateModified: "2026-06-19",
+    dateModified: "2026-10-23",
     inLanguage: locale,
     author: { "@type": "Organization", name: SITE_NAME },
     publisher: { "@type": "Organization", name: SITE_NAME },
@@ -121,179 +124,179 @@ export default async function PlatformsArticlePage({
       servicios: true,
       precio: isEs ? "Gratis" : "Free",
       afiliado: true,
-      destacado: isEs ? "Mejor opción gratuita para servicios" : "Best free option for utility bills",
+      destacado: isEs ? "Opción gratuita para servicios" : "Free option for utility bills",
       color: "#4f7cff",
       bg: "rgba(79,124,255,0.05)",
       border: "rgba(79,124,255,0.15)",
-      descEs: "Conecta tu cuenta bancaria y Experian detecta automáticamente tus pagos de luz, agua, teléfono y servicios de streaming. Solo afecta tu reporte de Experian, pero es completamente gratis y sin pasos complicados.",
-      descEn: "Connect your bank account and Experian automatically detects your utility, water, phone, and streaming payments. Only affects your Experian report, but it's completely free with no complicated steps.",
-      proEs: ["Completamente gratis", "Sin necesidad de que el arrendador participe", "Reporta historial de hasta 2 años gratis", "Setup en menos de 5 minutos"],
-      proEn: ["Completely free", "No landlord participation required", "Reports up to 2 years of history free", "Setup in under 5 minutes"],
-      contraEs: ["Solo reporta a Experian — no a Equifax ni TransUnion", "No sirve para hipotecas que usan FICO 2, 4 o 5"],
-      contraEn: ["Only reports to Experian — not Equifax or TransUnion", "Doesn't help for mortgages using FICO 2, 4, or 5"],
+      descEs: "Conecta tu cuenta bancaria y Experian detecta automáticamente tus pagos de luz, agua, teléfono y servicios de streaming. Solo afecta tu reporte de Experian, pero es completamente gratis.",
+      descEn: "Connect your bank account and Experian automatically detects your utility, water, phone, and streaming payments. Only affects your Experian report, but it's completely free.",
+      proEs: ["Completamente gratis", "Sin necesidad de que el arrendador participe", "Reporta historial de hasta 2 años gratis"],
+      proEn: ["Completely free", "No landlord participation required", "Reports up to 2 years of history free"],
+      contraEs: ["Solo reporta a Experian — no a Equifax ni TransUnion"],
+      contraEn: ["Only reports to Experian — not Equifax or TransUnion"],
     },
     {
       name: "Self",
-      burós: isEs ? "3 burós" : "3 bureaus",
+      burós: isEs ? "3 burós (renta)" : "3 bureaus (rent)",
       renta: true,
       servicios: true,
       precio: isEs ? "Gratis (renta) / $6.95/mes (servicios)" : "Free (rent) / $6.95/mo (utilities)",
       afiliado: true,
-      destacado: isEs ? "Más completo — renta + servicios + tarjeta asegurada" : "Most complete — rent + utilities + secured card",
+      destacado: isEs ? "Renta + servicios + tarjeta asegurada" : "Rent + utilities + secured card",
       color: "#06d6a0",
       bg: "rgba(6,214,160,0.05)",
       border: "rgba(6,214,160,0.15)",
-      descEs: "Self es una de las pocas plataformas que reporta renta a los tres burós de forma gratuita. Por $6.95 al mes también reporta servicios y teléfono a TransUnion. Además ofrece cuentas de construcción de crédito y una tarjeta asegurada.",
-      descEn: "Self is one of the few platforms that reports rent to all three bureaus for free. For $6.95/month it also reports utilities and phone to TransUnion. It also offers credit builder accounts and a secured card.",
-      proEs: ["Renta gratis a los 3 burós", "Historial de hasta 24 meses por $49.95 único", "Ecosistema completo de construcción de crédito", "Sin verificación de crédito para registrarse"],
-      proEn: ["Free rent reporting to all 3 bureaus", "Up to 24 months of history for a one-time $49.95", "Complete credit-building ecosystem", "No credit check to sign up"],
+      descEs: "Self reporta renta a los tres burós de forma gratuita. Por $6.95 al mes también reporta servicios y teléfono a TransUnion. Además ofrece cuentas de construcción de crédito y una tarjeta asegurada.",
+      descEn: "Self reports rent to all three bureaus for free. For $6.95/month it also reports utilities and phone to TransUnion. It also offers credit builder accounts and a secured card.",
+      proEs: ["Renta gratis a los 3 burós"],
+      proEn: ["Free rent reporting to all 3 bureaus"],
       contraEs: ["Servicios solo reportan a TransUnion (plan de pago)", "No tiene herramientas de análisis de crédito personalizadas"],
       contraEn: ["Utilities only report to TransUnion (paid plan)", "No personalized credit analysis tools"],
     },
     {
       name: "Kikoff",
-      burós: "Equifax + TransUnion",
+      burós: isEs ? "Consulta en su sitio" : "Check their site",
       renta: true,
-      servicios: true,
-      precio: isEs ? "Desde $5/mes" : "From $5/mo",
+      servicios: null,
+      precio: isEs ? "Consulta el precio actual en su sitio" : "Check current pricing on their site",
       afiliado: true,
-      destacado: isEs ? "Ideal para principiantes — renta + línea de crédito" : "Ideal for beginners — rent + credit line",
+      destacado: isEs ? "Renta + línea de crédito" : "Rent + credit line",
       color: "#7c3aed",
       bg: "rgba(124,58,237,0.05)",
       border: "rgba(124,58,237,0.15)",
-      descEs: "Kikoff combina reporte de renta con una línea de crédito sin interés, lo que te da dos fuentes de historial positivo al mismo tiempo. El plan premium reporta renta a Equifax y servicios a TransUnion.",
-      descEn: "Kikoff combines rent reporting with a no-interest credit line, giving you two sources of positive history at the same time. The premium plan reports rent to Equifax and utilities to TransUnion.",
-      proEs: ["Dos fuentes de crédito en una plataforma", "Sin consulta de crédito para registrarse", "Historial de hasta 24 meses por $50 único", "App intuitiva y fácil de usar"],
-      proEn: ["Two credit sources on one platform", "No hard credit pull to sign up", "Up to 24 months of history for one-time $50", "Intuitive, easy-to-use app"],
-      contraEs: ["Renta solo reporta a Equifax (no a los 3 burós)", "Requiere plan premium para el reporte de renta"],
-      contraEn: ["Rent only reports to Equifax (not all 3 bureaus)", "Requires premium plan for rent reporting"],
+      descEs: "Kikoff combina reporte de renta con una línea de crédito sin interés, lo que te da dos fuentes de historial positivo al mismo tiempo.",
+      descEn: "Kikoff combines rent reporting with a no-interest credit line, giving you two sources of positive history at the same time.",
+      proEs: ["Dos fuentes de crédito en una plataforma"],
+      proEn: ["Two credit sources on one platform"],
+      contraEs: ["Consulta en su sitio qué burós y qué plan incluyen el reporte de renta"],
+      contraEn: ["Check their site for which bureaus and which plan include rent reporting"],
     },
     {
       name: "Boom",
-      burós: isEs ? "3 burós" : "3 bureaus",
+      burós: isEs ? "Consulta en su sitio" : "Check their site",
       renta: true,
-      servicios: false,
-      precio: isEs ? "Gratis / $25 historial pasado" : "Free / $25 past history",
+      servicios: null,
+      precio: isEs ? "Consulta el precio actual en su sitio" : "Check current pricing on their site",
       afiliado: true,
-      destacado: isEs ? "Mejor relación precio-valor para los 3 burós" : "Best value for all 3 bureaus",
+      destacado: isEs ? "Reporte de renta, con opción de pagos pasados" : "Rent reporting, with an option for past payments",
       color: "#f59e0b",
       bg: "rgba(245,158,11,0.05)",
       border: "rgba(245,158,11,0.15)",
-      descEs: "Boom reporta tu renta y pagos de teléfono a los tres burós de forma gratuita. Por $25 único puedes agregar hasta 24 meses de historial pasado. No requiere que tu arrendador participe.",
-      descEn: "Boom reports your rent and phone payments to all three bureaus for free. For a one-time $25 you can add up to 24 months of past history. No landlord participation required.",
-      proEs: ["Gratis para pagos actuales", "Reporta a los 3 burós", "Historial pasado de 24 meses por solo $25", "No requiere participación del arrendador"],
-      proEn: ["Free for ongoing payments", "Reports to all 3 bureaus", "24 months of past history for just $25", "No landlord participation required"],
-      contraEs: ["No reporta servicios de electricidad ni agua", "Funcionalidades más limitadas que Self"],
-      contraEn: ["Does not report electricity or water utilities", "More limited features than Self"],
+      descEs: "Boom reporta tus pagos de renta y permite incluir pagos pasados. Consulta el precio actual en su sitio. No requiere que tu arrendador participe.",
+      descEn: "Boom reports your rent payments and lets you include past payments. Check current pricing on their site. No landlord participation required.",
+      proEs: ["Permite reportar pagos pasados", "No requiere participación del arrendador"],
+      proEn: ["Lets you report past payments", "No landlord participation required"],
+      contraEs: [],
+      contraEn: [],
     },
     {
       name: "RentReporters",
-      burós: isEs ? "3 burós" : "3 bureaus",
+      burós: isEs ? "Consulta en su sitio" : "Check their site",
       renta: true,
-      servicios: false,
-      precio: isEs ? "De pago (mensual o anual)" : "Paid (monthly or annual)",
+      servicios: null,
+      precio: isEs ? "Consulta el precio actual en su sitio" : "Check current pricing on their site",
       afiliado: true,
       destacado: isEs ? "Incluye pagos pasados" : "Includes past payments",
       color: "#f43f5e",
       bg: "rgba(244,63,94,0.05)",
       border: "rgba(244,63,94,0.15)",
-      descEs: "RentReporters es una de las plataformas más antiguas del mercado. Reporta a los tres burós y permite incluir pagos pasados.",
-      descEn: "RentReporters is one of the oldest platforms in the market. Reports to all three bureaus and allows past payments to be included.",
-      proEs: ["Reporta a los 3 burós", "Incluye historial pasado en el plan"],
-      proEn: ["Reports to all 3 bureaus", "Past history included in plan"],
-      contraEs: ["Tiene costo mensual o anual", "Solo reporta renta — no servicios ni teléfono"],
-      contraEn: ["Monthly or annual fee required", "Only reports rent — not utilities or phone"],
+      descEs: "RentReporters permite incluir pagos pasados. Consulta en su sitio el precio actual y qué burós reciben tus datos.",
+      descEn: "RentReporters allows past payments to be included. Check their site for current pricing and which bureaus receive your data.",
+      proEs: ["Incluye historial pasado en el plan"],
+      proEn: ["Past history included in plan"],
+      contraEs: [],
+      contraEn: [],
     },
     {
       name: "Piñata",
-      burós: isEs ? "3 burós" : "3 bureaus",
+      burós: isEs ? "Consulta en su sitio" : "Check their site",
       renta: true,
-      servicios: false,
-      precio: isEs ? "Gratis / $4.95/mes (Plus)" : "Free / $4.95/mo (Plus)",
+      servicios: null,
+      precio: isEs ? "Consulta el precio actual en su sitio" : "Check current pricing on their site",
       afiliado: false,
-      destacado: isEs ? "Única con sistema de recompensas por pagar a tiempo" : "The only one with rewards for on-time payments",
+      destacado: isEs ? "Recompensas por pagar a tiempo" : "Rewards for on-time payments",
       color: "#06d6a0",
       bg: "rgba(6,214,160,0.05)",
       border: "rgba(6,214,160,0.15)",
-      descEs: "Piñata agrega una capa de gamificación al reporte de renta: acumulas puntos por cada pago puntual y los canjas por tarjetas de regalo o productos de construcción de crédito. El plan básico es gratuito.",
-      descEn: "Piñata adds a gamification layer to rent reporting: you earn points for every on-time payment and redeem them for gift cards or credit-building products. The basic plan is free.",
-      proEs: ["Plan básico gratuito a los 3 burós", "Sistema de recompensas único en el mercado", "Historial pasado disponible en plan Plus", "Educación financiera incluida"],
-      proEn: ["Free basic plan to all 3 bureaus", "Unique rewards system in the market", "Past history available in Plus plan", "Financial education included"],
-      contraEs: ["Solo reporta renta — no servicios", "Recompensas pueden distraer del objetivo principal"],
-      contraEn: ["Only reports rent — not utilities", "Rewards may distract from the main goal"],
+      descEs: "Piñata agrega una capa de gamificación al reporte de renta: acumulas puntos por cada pago puntual y los canjas por tarjetas de regalo o productos de construcción de crédito.",
+      descEn: "Piñata adds a gamification layer to rent reporting: you earn points for every on-time payment and redeem them for gift cards or credit-building products.",
+      proEs: ["Sistema de recompensas por pagar a tiempo", "Educación financiera incluida"],
+      proEn: ["Rewards system for on-time payments", "Financial education included"],
+      contraEs: [],
+      contraEn: [],
     },
     {
       name: "WalletHub",
       slug: "reporte-renta-servicios",
-      burós: "TransUnion",
+      burós: "TransUnion + Experian",
       renta: true,
       servicios: true,
-      precio: isEs ? "Gratis / plan Premium de pago" : "Free / paid Premium plan",
+      precio: isEs ? "Cuenta gratuita; Credit Builder en planes Plus y Premium" : "Free account; Credit Builder on Plus and Premium plans",
       afiliado: true,
-      destacado: isEs ? "Plan gratuito sólido — Premium agrega protección de identidad" : "Solid free plan — Premium adds identity protection",
+      destacado: isEs ? "Premium agrega protección de identidad" : "Premium adds identity protection",
       color: "#4f7cff",
       bg: "rgba(79,124,255,0.05)",
       border: "rgba(79,124,255,0.15)",
-      descEs: "WalletHub reporta renta y servicios a TransUnion gratis en su plan Basic, e incluye tu score VantageScore 3.0, reporte de crédito y análisis personalizado. El plan Premium de pago agrega bloqueo de crédito, protección de identidad y monitoreo de la dark web.",
-      descEn: "WalletHub reports rent and utilities to TransUnion for free on the Basic plan, including your VantageScore 3.0, credit report, and personalized analysis. The paid Premium plan adds credit lock, identity protection, and dark web monitoring.",
-      proEs: ["Plan Basic completamente gratis", "Reporta renta y servicios", "Análisis de crédito personalizado incluido", "El plan Premium de pago agrega protección de identidad"],
-      proEn: ["Basic plan completely free", "Reports rent and utilities", "Personalized credit analysis included", "The paid Premium plan adds identity protection"],
-      contraEs: ["Solo reporta a TransUnion — no a Equifax ni Experian", "Funciones avanzadas requieren plan de pago"],
-      contraEn: ["Only reports to TransUnion — not Equifax or Experian", "Advanced features require paid plan"],
+      descEs: "El reporte de renta y servicios de WalletHub es parte de Credit Builder, disponible para miembros de WalletHub Plus y Premium. Reporta pagos de renta elegibles a TransUnion y Experian, y pagos de servicios elegibles (teléfono, luz, gas y agua) a TransUnion. No todos los pagos son elegibles. La cuenta gratuita incluye tu puntaje VantageScore 3.0 y reportes de crédito. El plan Premium de pago agrega bloqueo de crédito de TransUnion, seguro contra robo de identidad y monitoreo de la dark web.",
+      descEn: "WalletHub's rent and utility reporting is part of Credit Builder, available to WalletHub Plus and Premium members. It reports eligible rent payments to TransUnion and Experian, and eligible bill payments (phone, electric, gas and water) to TransUnion. Not all payments are eligible. The free account includes your VantageScore 3.0 and credit reports. The paid Premium plan adds a TransUnion credit lock, identity theft insurance and dark web monitoring.",
+      proEs: ["Reporta renta elegible a TransUnion y Experian", "Reporta servicios elegibles a TransUnion", "La cuenta gratuita incluye puntaje VantageScore 3.0 y reportes de crédito", "El plan Premium de pago agrega protección de identidad"],
+      proEn: ["Reports eligible rent to TransUnion and Experian", "Reports eligible bills to TransUnion", "Free account includes VantageScore 3.0 and credit reports", "The paid Premium plan adds identity protection"],
+      contraEs: ["Reportar renta y servicios requiere ser miembro Plus o Premium", "No todos los pagos son elegibles", "Requiere sincronizar una cuenta bancaria"],
+      contraEn: ["Reporting rent and bills requires a Plus or Premium membership", "Not all payments are eligible", "Requires syncing a bank account"],
     },
     {
       name: "LevelCredit",
-      burós: isEs ? "3 burós" : "3 bureaus",
+      burós: isEs ? "Consulta en su sitio" : "Check their site",
       renta: true,
-      servicios: true,
+      servicios: null,
       precio: isEs ? "De pago" : "Paid",
       afiliado: false,
-      destacado: isEs ? "La más completa para servicios — teléfono, streaming y más" : "Most complete for bills — phone, streaming and more",
+      destacado: isEs ? "Consulta precio y condiciones en su sitio" : "Check price and terms on their site",
       color: "#7c3aed",
       bg: "rgba(124,58,237,0.05)",
       border: "rgba(124,58,237,0.15)",
-      descEs: "LevelCredit va más allá de la renta — reporta teléfono, servicios públicos, Netflix, Spotify y otros pagos recurrentes a los tres burós. Es la opción más completa para personas con historial delgado.",
-      descEn: "LevelCredit goes beyond rent — it reports phone, utilities, Netflix, Spotify, and other recurring payments to all three bureaus. It's the most complete option for people with thin credit files.",
-      proEs: ["Reporta más tipos de pagos que cualquier otra", "Reporta a los 3 burós", "Historial de hasta 24 meses disponible", "Ideal para thin file"],
-      proEn: ["Reports more payment types than any other", "Reports to all 3 bureaus", "Up to 24 months of history available", "Ideal for thin files"],
-      contraEs: ["Tiene costo mensual", "Interfaz menos moderna que competidores"],
-      contraEn: ["Monthly fee required", "Less modern interface than competitors"],
+      descEs: "Consulta en su sitio qué pagos y burós incluye LevelCredit.",
+      descEn: "Check their site for which payments and bureaus LevelCredit includes.",
+      proEs: [],
+      proEn: [],
+      contraEs: ["Consulta el precio actual en su sitio"],
+      contraEn: ["Check current pricing on their site"],
     },
     {
       name: "Rental Kharma",
-      burós: "TransUnion + Equifax",
+      burós: isEs ? "Consulta en su sitio" : "Check their site",
       renta: true,
-      servicios: false,
-      precio: isEs ? "$75 pago único" : "$75 one-time fee",
+      servicios: null,
+      precio: isEs ? "Consulta el precio actual en su sitio" : "Check current pricing on their site",
       afiliado: false,
-      destacado: isEs ? "Pago único — sin mensualidad" : "One-time payment — no monthly fee",
+      destacado: isEs ? "Consulta precio y condiciones en su sitio" : "Check price and terms on their site",
       color: "#f59e0b",
       bg: "rgba(245,158,11,0.05)",
       border: "rgba(245,158,11,0.15)",
-      descEs: "Rental Kharma cobra una tarifa única de $75 para reportar todo tu historial de renta actual a TransUnion y Equifax. Sin mensualidades ni cargos recurrentes.",
-      descEn: "Rental Kharma charges a one-time $75 fee to report all your current rent history to TransUnion and Equifax. No monthly fees or recurring charges.",
-      proEs: ["Sin mensualidad — pago único", "Reporta todo el historial pasado de la dirección actual", "Ideal para quienes prefieren evitar cargos recurrentes"],
-      proEn: ["No monthly fee — one-time payment", "Reports all past history from current address", "Ideal for those who prefer avoiding recurring charges"],
-      contraEs: ["No reporta a Experian", "Solo cubre la dirección actual", "No reporta servicios ni teléfono"],
-      contraEn: ["Does not report to Experian", "Only covers current address", "Does not report utilities or phone"],
+      descEs: "Rental Kharma reporta pagos de renta. Consulta en su sitio el precio actual, los burós y las condiciones.",
+      descEn: "Rental Kharma reports rent payments. Check their site for current pricing, bureaus and terms.",
+      proEs: [],
+      proEn: [],
+      contraEs: ["Consulta en su sitio qué pagos y burós incluye"],
+      contraEn: ["Check their site for which payments and bureaus it includes"],
     },
     {
       name: "RentTrack",
-      burós: isEs ? "3 burós" : "3 bureaus",
+      burós: isEs ? "Consulta en su sitio" : "Check their site",
       renta: true,
-      servicios: false,
+      servicios: null,
       precio: isEs ? "De pago" : "Paid",
       afiliado: false,
-      destacado: isEs ? "Solución integral para arrendadores y arrendatarios" : "Full solution for landlords and tenants",
+      destacado: isEs ? "Para arrendadores y arrendatarios" : "For landlords and tenants",
       color: "#f43f5e",
       bg: "rgba(244,63,94,0.05)",
       border: "rgba(244,63,94,0.15)",
-      descEs: "RentTrack está diseñado tanto para arrendadores como para inquilinos. Verifica el pago y lo reporta a los tres burós. Es una opción sólida cuando el arrendador también participa en el proceso.",
-      descEn: "RentTrack is designed for both landlords and tenants. It verifies payment and reports to all three bureaus. A solid option when the landlord also participates in the process.",
-      proEs: ["Reporta a los 3 burós", "Proceso de verificación robusto", "Ideal cuando el arrendador usa el sistema"],
-      proEn: ["Reports to all 3 bureaus", "Robust verification process", "Ideal when landlord uses the system"],
-      contraEs: ["Requiere coordinación con el arrendador en algunos casos", "Tiene costo mensual", "Solo reporta renta"],
-      contraEn: ["May require landlord coordination in some cases", "Monthly fee required", "Only reports rent"],
+      descEs: "RentTrack está diseñado tanto para arrendadores como para inquilinos. Verifica el pago y lo reporta. Es una opción cuando el arrendador también participa en el proceso.",
+      descEn: "RentTrack is designed for both landlords and tenants. It verifies payment and reports it. An option when the landlord also participates in the process.",
+      proEs: ["Para cuando el arrendador usa el sistema"],
+      proEn: ["For when the landlord uses the system"],
+      contraEs: ["Requiere coordinación con el arrendador en algunos casos", "Consulta el precio actual en su sitio"],
+      contraEn: ["May require landlord coordination in some cases", "Check current pricing on their site"],
     },
   ];
 
@@ -328,6 +331,7 @@ export default async function PlatformsArticlePage({
           <p className="text-[#8892a4] text-lg leading-relaxed font-light">
             {t.subtitle}
           </p>
+          <p className="text-xs text-[#8892a4] mt-3">{t.reviewedNote}</p>
         </div>
 
         <div className="h-px bg-white/[0.07] mb-10" />
@@ -342,13 +346,13 @@ export default async function PlatformsArticlePage({
             </h2>
             <p>
               {isEs
-                ? "La respuesta corta: depende de tu situación. Si tienes crédito limitado o un puntaje por debajo de 650, invertir $5 a $10 al mes en una plataforma de reporte puede traducirse en cientos o miles de dólares en ahorros futuros — en forma de tasas de interés más bajas en préstamos, mejor acceso a apartamentos o mejores condiciones en tarjetas de crédito."
-                : "The short answer: it depends on your situation. If you have limited credit or a score below 650, investing $5 to $10 per month in a reporting platform can translate into hundreds or thousands of dollars in future savings — in the form of lower interest rates on loans, better access to apartments, or better credit card terms."}
+                ? "La respuesta corta: depende de tu situación. Si tienes crédito limitado o un puntaje bajo, usar una plataforma de reporte puede traducirse en ahorros futuros — en forma de tasas de interés más bajas en préstamos, mejor acceso a apartamentos o mejores condiciones en tarjetas de crédito. Consulta el precio actual de cada plataforma en su sitio."
+                : "The short answer: it depends on your situation. If you have limited credit or a low score, using a reporting platform can translate into future savings — in the form of lower interest rates on loans, better access to apartments, or better credit card terms. Check each platform's current price on its site."}
             </p>
             <p className="mt-3">
               {isEs
-                ? "Piénsalo como una inversión. Un punto de interés menos en un préstamo de auto de $20,000 puede ahorrarte más de $1,000 durante la vida del préstamo. Eso hace que $10 al mes por 6 meses — $60 total — sea una de las inversiones financieras más inteligentes que puedes hacer."
-                : "Think of it as an investment. One percentage point less in interest on a $20,000 auto loan can save you more than $1,000 over the life of the loan. That makes $10 per month for 6 months — $60 total — one of the smartest financial investments you can make."}
+                ? "Un ejemplo ilustrativo: en un préstamo de auto de $20,000 a 60 meses, una tasa de 6% en lugar de 7% son unos $562 de diferencia en intereses durante la vida del préstamo. Es solo un ejemplo con esos supuestos; tu ahorro real depende de tu préstamo y de tu tasa."
+                : "An illustrative example: on a $20,000 auto loan over 60 months, a 6% rate instead of 7% means about $562 less in interest over the life of the loan. It's only an example with those assumptions; your actual savings depend on your loan and your rate."}
             </p>
 
             <div className="bg-[#0d1220] border border-white/[0.07] rounded-xl p-5 my-4">
@@ -357,17 +361,17 @@ export default async function PlatformsArticlePage({
               </p>
               <div className="space-y-2">
                 {(isEs ? [
-                  "Tu puntaje está por debajo de 680 y quieres mejorarlo pronto",
+                  "Quieres mejorar tu puntaje pronto",
                   "Planeas pedir un préstamo de auto o hipoteca en los próximos 12 meses",
                   "Tienes historial de renta pero nunca ha sido reportado",
                   "Quieres reportar a los 3 burós, no solo a uno",
-                  "Quieres agregar historial pasado de 12-24 meses de forma retroactiva",
+                  "Quieres agregar historial pasado de forma retroactiva",
                 ] : [
-                  "Your score is below 680 and you want to improve it soon",
+                  "You want to improve your score soon",
                   "You plan to apply for an auto loan or mortgage in the next 12 months",
                   "You have rental history that has never been reported",
                   "You want to report to all 3 bureaus, not just one",
-                  "You want to add 12-24 months of past history retroactively",
+                  "You want to add past history retroactively",
                 ]).map((item, i) => (
                   <div key={i} className="flex gap-2 text-sm">
                     <span className="text-[#06d6a0] flex-shrink-0">✓</span>
@@ -381,7 +385,7 @@ export default async function PlatformsArticlePage({
           {/* Platform cards */}
           <section>
             <h2 className="text-xl font-bold text-[#f0f2f7] mb-6">
-              {isEs ? "Comparación Completa de Plataformas" : "Complete Platform Comparison"}
+              {isEs ? "Comparación de Plataformas" : "Platform Comparison"}
             </h2>
             <div className="space-y-5">
               {platforms.map((p, idx) => (
@@ -412,8 +416,8 @@ export default async function PlatformsArticlePage({
                     <span className={`text-[10px] px-2 py-1 rounded-full ${p.renta ? 'bg-[rgba(6,214,160,0.1)] text-[#06d6a0]' : 'bg-[rgba(244,63,94,0.1)] text-[#f43f5e]'}`}>
                       {isEs ? "Renta:" : "Rent:"} {p.renta ? '✓' : '✗'}
                     </span>
-                    <span className={`text-[10px] px-2 py-1 rounded-full ${p.servicios ? 'bg-[rgba(6,214,160,0.1)] text-[#06d6a0]' : 'bg-[rgba(244,63,94,0.1)] text-[#f43f5e]'}`}>
-                      {isEs ? "Servicios:" : "Utilities:"} {p.servicios ? '✓' : '✗'}
+                    <span className={`text-[10px] px-2 py-1 rounded-full ${p.servicios === null ? 'bg-white/[0.06] text-[#8892a4]' : p.servicios ? 'bg-[rgba(6,214,160,0.1)] text-[#06d6a0]' : 'bg-[rgba(244,63,94,0.1)] text-[#f43f5e]'}`}>
+                      {isEs ? "Servicios:" : "Utilities:"} {p.servicios === null ? (isEs ? "Consulta en su sitio" : "Check their site") : p.servicios ? '✓' : '✗'}
                     </span>
                   </div>
 
@@ -422,32 +426,36 @@ export default async function PlatformsArticlePage({
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <p className="text-[10px] font-bold text-[#06d6a0] uppercase tracking-wide mb-2">
-                        {isEs ? "Ventajas" : "Pros"}
-                      </p>
-                      <ul className="space-y-1">
-                        {(isEs ? p.proEs : p.proEn).map((item, i) => (
-                          <li key={i} className="flex gap-1.5 text-[11px] text-[#8892a4]">
-                            <span className="text-[#06d6a0] flex-shrink-0">+</span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-[#f43f5e] uppercase tracking-wide mb-2">
-                        {isEs ? "Limitaciones" : "Cons"}
-                      </p>
-                      <ul className="space-y-1">
-                        {(isEs ? p.contraEs : p.contraEn).map((item, i) => (
-                          <li key={i} className="flex gap-1.5 text-[11px] text-[#8892a4]">
-                            <span className="text-[#f43f5e] flex-shrink-0">−</span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {(isEs ? p.proEs : p.proEn).length > 0 && (
+                      <div>
+                        <p className="text-[10px] font-bold text-[#06d6a0] uppercase tracking-wide mb-2">
+                          {isEs ? "Ventajas" : "Pros"}
+                        </p>
+                        <ul className="space-y-1">
+                          {(isEs ? p.proEs : p.proEn).map((item, i) => (
+                            <li key={i} className="flex gap-1.5 text-[11px] text-[#8892a4]">
+                              <span className="text-[#06d6a0] flex-shrink-0">+</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {(isEs ? p.contraEs : p.contraEn).length > 0 && (
+                      <div>
+                        <p className="text-[10px] font-bold text-[#f43f5e] uppercase tracking-wide mb-2">
+                          {isEs ? "Limitaciones" : "Cons"}
+                        </p>
+                        <ul className="space-y-1">
+                          {(isEs ? p.contraEs : p.contraEn).map((item, i) => (
+                            <li key={i} className="flex gap-1.5 text-[11px] text-[#8892a4]">
+                              <span className="text-[#f43f5e] flex-shrink-0">−</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
                   {p.slug && (
@@ -469,17 +477,13 @@ export default async function PlatformsArticlePage({
             </h2>
             <div className="bg-[#0d1220] border border-white/[0.07] rounded-xl p-5 space-y-3">
               {(isEs ? [
-                { caso: "Quieres empezar gratis", rec: "Experian Boost, Self y WalletHub tienen opciones gratuitas; algunas funciones, como las del plan Premium de WalletHub, son de pago. Revisa en cada sitio qué incluye el plan gratuito." },
-                { caso: "Quieres la opción más completa", rec: "Self o LevelCredit — reportan renta, servicios, teléfono y más a múltiples burós." },
-                { caso: "Quieres resultados rápidos con historial pasado", rec: "RentReporters o Boom — permiten agregar hasta 24 meses retroactivos." },
-                { caso: "Prefieres pago único sin mensualidad", rec: "Rental Kharma ($75) o Boom ($25 por historial pasado)." },
+                { caso: "Quieres empezar gratis", rec: "Experian Boost y Self tienen opciones gratuitas. WalletHub tiene una cuenta gratuita, pero reportar renta con Credit Builder requiere plan Plus o Premium. Revisa en cada sitio qué incluye el plan gratuito." },
+                { caso: "Quieres agregar historial pasado", rec: "RentReporters o Boom — permiten incluir pagos pasados. Consulta el precio y las condiciones actuales en su sitio." },
                 { caso: "Quieres motivación adicional", rec: "Piñata — acumulas puntos y recompensas por pagar a tiempo." },
                 { caso: "Eres nuevo en el crédito y quieres dos fuentes a la vez", rec: "Kikoff — combina reporte de renta con una línea de crédito sin interés." },
               ] : [
-                { caso: "You want to start for free", rec: "Experian Boost, Self and WalletHub have free options; some features, such as WalletHub's Premium plan, are paid. Check each site to see what the free plan includes." },
-                { caso: "You want the most complete option", rec: "Self or LevelCredit — report rent, utilities, phone, and more to multiple bureaus." },
-                { caso: "You want quick results with past history", rec: "RentReporters or Boom — allow adding up to 24 months retroactively." },
-                { caso: "You prefer a one-time payment with no monthly fee", rec: "Rental Kharma ($75) or Boom ($25 for past history)." },
+                { caso: "You want to start for free", rec: "Experian Boost and Self have free options. WalletHub has a free account, but reporting rent with Credit Builder requires a Plus or Premium plan. Check each site to see what the free plan includes." },
+                { caso: "You want to add past history", rec: "RentReporters or Boom — let you include past payments. Check current pricing and terms on their site." },
                 { caso: "You want extra motivation", rec: "Piñata — earn points and rewards for paying on time." },
                 { caso: "You're new to credit and want two sources at once", rec: "Kikoff — combines rent reporting with a no-interest credit line." },
               ]).map((item, i) => (
@@ -505,8 +509,8 @@ export default async function PlatformsArticlePage({
             </p>
             <p className="mt-3">
               {isEs
-                ? "Si tienes presupuesto limitado, empieza con las opciones gratuitas y agrega una de pago cuando veas resultados. Si estás a meses de pedir un préstamo importante, invertir en una plataforma que reporte a los 3 burós con historial pasado puede hacer la diferencia entre una tasa del 8% y una del 5%."
-                : "If you have a limited budget, start with the free options and add a paid one when you see results. If you're months away from applying for an important loan, investing in a platform that reports to all 3 bureaus with past history can make the difference between an 8% rate and a 5% rate."}
+                ? "Si tienes presupuesto limitado, empieza con las opciones gratuitas y agrega una de pago cuando veas resultados. Si estás a meses de pedir un préstamo importante, compara en su sitio qué incluye cada plataforma."
+                : "If you have a limited budget, start with the free options and add a paid one when you see results. If you're months away from applying for an important loan, compare what each platform includes on its site."}
             </p>
             <p className="mt-2">
               {isEs
