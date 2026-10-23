@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { SITE_NAME, OG_TYPE_ARTICLE, OG_LOCALE, TWITTER_CARD, OG_IMAGES, TWITTER_IMAGES } from "../../seo-defaults";
 import { blogPosts } from "../posts-meta";
 import DetailPageHeader from "@/components/DetailPageHeader";
+import AffiliateDisclosure from "@/components/AffiliateDisclosure";
+import AffiliateLink from "@/components/AffiliateLink";
 
 type Locale = "en" | "es";
 
@@ -25,7 +27,7 @@ const content: Record<Locale, {
     ctaTitle: "Want to know how much your score can improve?",
     ctaDesc: "Use our free Dual Score Estimator — it shows your estimated score in FICO 8 and FICO 10T and which factors to improve first.",
     ctaBtn: "Analyze My Score Free",
-    disclaimerText: "ScoreMotive is an educational tool. This article may contain affiliate links in the future. Platform prices and features may change. Always verify information directly with each service before signing up. Consult a CFP before making major financial decisions.",
+    disclaimerText: "ScoreMotive is an educational tool. This article contains affiliate links. Platform prices and features may change. Always verify information directly with each service before signing up. Consult a CFP before making major financial decisions.",
     toolsLabel: "Tools",
     relatedTitle: "Related Articles",
   },
@@ -36,7 +38,7 @@ const content: Record<Locale, {
     ctaTitle: "¿Quieres saber cuánto puede subir tu puntaje?",
     ctaDesc: "Usa nuestro Estimador de Score Dual gratuito — te muestra tu puntaje estimado en FICO 8 y FICO 10T y qué factores mejorar primero.",
     ctaBtn: "Analizar mi Score Gratis",
-    disclaimerText: "ScoreMotive es una herramienta educativa. Este artículo puede contener enlaces de afiliados en el futuro. Los precios y características de las plataformas pueden cambiar. Verifica siempre la información directamente con cada servicio antes de registrarte. Consulta a un CFP antes de tomar decisiones financieras importantes.",
+    disclaimerText: "ScoreMotive es una herramienta educativa. Este artículo contiene enlaces de afiliado. Los precios y características de las plataformas pueden cambiar. Verifica siempre la información directamente con cada servicio antes de registrarte. Consulta a un CFP antes de tomar decisiones financieras importantes.",
     toolsLabel: "Herramientas",
     relatedTitle: "Artículos Relacionados",
   },
@@ -191,14 +193,14 @@ export default async function PlatformsArticlePage({
       servicios: false,
       precio: isEs ? "De pago (mensual o anual)" : "Paid (monthly or annual)",
       afiliado: true,
-      destacado: isEs ? "La más antigua y probada — 40 puntos en 10 días" : "The oldest and most proven — 40 points in 10 days",
+      destacado: isEs ? "Incluye pagos pasados" : "Includes past payments",
       color: "#f43f5e",
       bg: "rgba(244,63,94,0.05)",
       border: "rgba(244,63,94,0.15)",
-      descEs: "RentReporters es una de las plataformas más antiguas del mercado. Reporta a los tres burós y permite incluir pagos pasados. Sus usuarios reportan un promedio de 40 puntos de aumento en los primeros 10 días.",
-      descEn: "RentReporters is one of the oldest platforms in the market. Reports to all three bureaus and allows past payments to be included. Users report an average 40-point increase in the first 10 days.",
-      proEs: ["Track record probado desde 2006", "Reporta a los 3 burós", "Incluye historial pasado en el plan", "Promedio de +40 puntos en 10 días"],
-      proEn: ["Proven track record since 2006", "Reports to all 3 bureaus", "Past history included in plan", "Average +40 points in 10 days"],
+      descEs: "RentReporters es una de las plataformas más antiguas del mercado. Reporta a los tres burós y permite incluir pagos pasados.",
+      descEn: "RentReporters is one of the oldest platforms in the market. Reports to all three bureaus and allows past payments to be included.",
+      proEs: ["Reporta a los 3 burós", "Incluye historial pasado en el plan"],
+      proEn: ["Reports to all 3 bureaus", "Past history included in plan"],
       contraEs: ["Tiene costo mensual o anual", "Solo reporta renta — no servicios ni teléfono"],
       contraEn: ["Monthly or annual fee required", "Only reports rent — not utilities or phone"],
     },
@@ -222,20 +224,20 @@ export default async function PlatformsArticlePage({
     },
     {
       name: "WalletHub",
-      link: "https://www.kqzyfj.com/click-101805316-17264776",
+      slug: "reporte-renta-servicios",
       burós: "TransUnion",
       renta: true,
       servicios: true,
-      precio: isEs ? "Gratis / $6.49/mes (Premium)" : "Free / $6.49/mo (Premium)",
+      precio: isEs ? "Gratis / plan Premium de pago" : "Free / paid Premium plan",
       afiliado: true,
       destacado: isEs ? "Plan gratuito sólido — Premium agrega protección de identidad" : "Solid free plan — Premium adds identity protection",
       color: "#4f7cff",
       bg: "rgba(79,124,255,0.05)",
       border: "rgba(79,124,255,0.15)",
-      descEs: "WalletHub reporta renta y servicios a TransUnion gratis en su plan Basic, e incluye tu score VantageScore 3.0, reporte de crédito y análisis personalizado. El plan Premium ($6.49/mes) agrega bloqueo de crédito, protección de identidad y monitoreo de la dark web.",
-      descEn: "WalletHub reports rent and utilities to TransUnion for free on the Basic plan, including your VantageScore 3.0, credit report, and personalized analysis. The Premium plan ($6.49/mo) adds credit lock, identity protection, and dark web monitoring.",
-      proEs: ["Plan Basic completamente gratis", "Reporta renta y servicios", "Análisis de crédito personalizado incluido", "Premium agrega protección de identidad por $6.49/mes"],
-      proEn: ["Basic plan completely free", "Reports rent and utilities", "Personalized credit analysis included", "Premium adds identity protection for $6.49/mo"],
+      descEs: "WalletHub reporta renta y servicios a TransUnion gratis en su plan Basic, e incluye tu score VantageScore 3.0, reporte de crédito y análisis personalizado. El plan Premium de pago agrega bloqueo de crédito, protección de identidad y monitoreo de la dark web.",
+      descEn: "WalletHub reports rent and utilities to TransUnion for free on the Basic plan, including your VantageScore 3.0, credit report, and personalized analysis. The paid Premium plan adds credit lock, identity protection, and dark web monitoring.",
+      proEs: ["Plan Basic completamente gratis", "Reporta renta y servicios", "Análisis de crédito personalizado incluido", "El plan Premium de pago agrega protección de identidad"],
+      proEn: ["Basic plan completely free", "Reports rent and utilities", "Personalized credit analysis included", "The paid Premium plan adds identity protection"],
       contraEs: ["Solo reporta a TransUnion — no a Equifax ni Experian", "Funciones avanzadas requieren plan de pago"],
       contraEn: ["Only reports to TransUnion — not Equifax or Experian", "Advanced features require paid plan"],
     },
@@ -330,6 +332,8 @@ export default async function PlatformsArticlePage({
 
         <div className="h-px bg-white/[0.07] mb-10" />
 
+        <AffiliateDisclosure locale={isEs ? "es" : "en"} variant="multi" />
+
         <div className="space-y-8 text-[#c8d0dc] leading-relaxed">
 
           <section>
@@ -386,8 +390,8 @@ export default async function PlatformsArticlePage({
                     <div>
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-black text-[#f0f2f7] text-lg">
-                          #{idx + 1} {p.link ? (
-                            <a href={p.link} target="_blank" rel="noopener noreferrer sponsored" className="underline hover:text-[#4f7cff] transition-colors">{p.name}</a>
+                          #{idx + 1} {p.slug ? (
+                            <AffiliateLink slug={p.slug} className="underline hover:text-[#4f7cff] transition-colors">{p.name}</AffiliateLink>
                           ) : p.name}
                         </span>
 
@@ -446,18 +450,11 @@ export default async function PlatformsArticlePage({
                     </div>
                   </div>
 
-                  {/* Affiliate placeholder */}
-                  {p.link ? (
-                    <div className="mt-4 pt-3 border-t border-white/[0.05]">
-                      <a href={p.link} target="_blank" rel="noopener noreferrer sponsored" className="inline-flex items-center gap-1.5 text-xs font-bold" style={{ color: p.color }}>
+                  {p.slug && (
+                    <div className="mt-4 pt-3 border-t border-white/[0.05]" style={{ color: p.color }}>
+                      <AffiliateLink slug={p.slug} className="inline-flex items-center gap-1.5 text-xs font-bold">
                         {isEs ? `Visitar ${p.name} →` : `Visit ${p.name} →`}
-                      </a>
-                    </div>
-                  ) : p.afiliado && (
-                    <div className="mt-4 pt-3 border-t border-white/[0.05]">
-                      <span className="text-[10px] text-[#8892a4] opacity-50">
-                        {isEs ? "→ Enlace de referido próximamente" : "→ Referral link coming soon"}
-                      </span>
+                      </AffiliateLink>
                     </div>
                   )}
                 </div>
@@ -472,14 +469,14 @@ export default async function PlatformsArticlePage({
             </h2>
             <div className="bg-[#0d1220] border border-white/[0.07] rounded-xl p-5 space-y-3">
               {(isEs ? [
-                { caso: "Quieres empezar gratis", rec: "Experian Boost + Self (renta) + WalletHub — las tres son gratuitas y cubren los 3 burós en conjunto." },
+                { caso: "Quieres empezar gratis", rec: "Experian Boost, Self y WalletHub tienen opciones gratuitas; algunas funciones, como las del plan Premium de WalletHub, son de pago. Revisa en cada sitio qué incluye el plan gratuito." },
                 { caso: "Quieres la opción más completa", rec: "Self o LevelCredit — reportan renta, servicios, teléfono y más a múltiples burós." },
                 { caso: "Quieres resultados rápidos con historial pasado", rec: "RentReporters o Boom — permiten agregar hasta 24 meses retroactivos." },
                 { caso: "Prefieres pago único sin mensualidad", rec: "Rental Kharma ($75) o Boom ($25 por historial pasado)." },
                 { caso: "Quieres motivación adicional", rec: "Piñata — acumulas puntos y recompensas por pagar a tiempo." },
                 { caso: "Eres nuevo en el crédito y quieres dos fuentes a la vez", rec: "Kikoff — combina reporte de renta con una línea de crédito sin interés." },
               ] : [
-                { caso: "You want to start for free", rec: "Experian Boost + Self (rent) + WalletHub — all three are free and together cover all 3 bureaus." },
+                { caso: "You want to start for free", rec: "Experian Boost, Self and WalletHub have free options; some features, such as WalletHub's Premium plan, are paid. Check each site to see what the free plan includes." },
                 { caso: "You want the most complete option", rec: "Self or LevelCredit — report rent, utilities, phone, and more to multiple bureaus." },
                 { caso: "You want quick results with past history", rec: "RentReporters or Boom — allow adding up to 24 months retroactively." },
                 { caso: "You prefer a one-time payment with no monthly fee", rec: "Rental Kharma ($75) or Boom ($25 for past history)." },

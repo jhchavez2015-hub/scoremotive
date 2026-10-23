@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SITE_NAME, OG_TYPE_ARTICLE, OG_LOCALE, TWITTER_CARD, OG_IMAGES, TWITTER_IMAGES } from "../../seo-defaults";
 import { blogPosts } from "../posts-meta";
 import AffiliateDisclosure from "@/components/AffiliateDisclosure";
+import AffiliateLink from "@/components/AffiliateLink";
 import DetailPageHeader from "@/components/DetailPageHeader";
 
 type Locale = "en" | "es";
@@ -271,12 +272,11 @@ export default async function RaiseScoreArticlePage({
                   ))}
                 </div>
 
-                <p className="mt-2">
-                  ¿Prefieres monitoreo automático en vez de revisar manualmente?{" "}
-                  <a href="/go/smartcredit" className="text-[#06d6a0] underline hover:text-[#4f7cff] transition-colors">SmartCredit</a>
-                  {" "}rastrea tu reporte en tiempo real y te alerta ante cambios — útil si prefieres no revisarlo tú mismo cada mes.
-                </p>
                 <AffiliateDisclosure locale="es" />
+                <p className="mt-2">
+                  Una opción de monitoreo de crédito es{" "}
+                  <AffiliateLink slug="monitoreo-3-buros" className="text-[#06d6a0] underline hover:text-[#4f7cff] transition-colors">SmartCredit</AffiliateLink>.
+                </p>
               </section>
 
               <section>
@@ -449,12 +449,11 @@ export default async function RaiseScoreArticlePage({
                   ))}
                 </div>
 
-                <p className="mt-2">
-                  Prefer automatic monitoring instead of checking manually?{" "}
-                  <a href="/go/smartcredit" className="text-[#06d6a0] underline hover:text-[#4f7cff] transition-colors">SmartCredit</a>
-                  {" "}tracks your report in real time and alerts you to changes — useful if you'd rather not check it yourself every month.
-                </p>
                 <AffiliateDisclosure locale="en" />
+                <p className="mt-2">
+                  One credit monitoring option is{" "}
+                  <AffiliateLink slug="monitoreo-3-buros" className="text-[#06d6a0] underline hover:text-[#4f7cff] transition-colors">SmartCredit</AffiliateLink>.
+                </p>
               </section>
 
               <section>
