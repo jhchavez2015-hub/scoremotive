@@ -25,22 +25,20 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   const isEs = lang === 'es';
   const fecha = new Date().toLocaleDateString(isEs ? 'es-US' : 'en-US');
 
-  doc.setFillColor(8, 11, 18);
-  doc.rect(0, 0, 210, 297, 'F');
-  doc.setTextColor(240, 242, 247);
+  doc.setTextColor(17, 24, 39);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
   doc.text('ScoreMotive', 20, 20);
   doc.setFontSize(11);
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(136, 146, 164);
+  doc.setTextColor(75, 85, 99);
   doc.text(isEs ? 'Informe de Estrategia de Deudas' : 'Debt Strategy Report', 20, 28);
   doc.text(`${isEs ? 'Fecha' : 'Date'}: ${fecha}`, 20, 35);
 
   doc.setDrawColor(79, 124, 255);
   doc.line(20, 40, 190, 40);
 
-  doc.setTextColor(240, 242, 247);
+  doc.setTextColor(17, 24, 39);
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.text(isEs ? 'Tus Deudas' : 'Your Debts', 20, 50);
@@ -48,7 +46,7 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   let y = 57;
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(136, 146, 164);
+  doc.setTextColor(75, 85, 99);
   doc.text(isEs ? 'Nombre' : 'Name', 20, y);
   doc.text(isEs ? 'Balance' : 'Balance', 80, y);
   doc.text('APR', 120, y);
@@ -58,7 +56,7 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.line(20, y, 190, y);
   y += 5;
 
-  doc.setTextColor(240, 242, 247);
+  doc.setTextColor(17, 24, 39);
   debts.forEach(d => {
     doc.text(truncarTexto(doc, d.nombre, 55), 20, y);
     doc.text(`$${parseFloat(d.balance).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, 80, y);
@@ -68,7 +66,7 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   });
 
   y += 3;
-  doc.setTextColor(136, 146, 164);
+  doc.setTextColor(75, 85, 99);
   doc.text(`${isEs ? 'Pago extra mensual' : 'Monthly extra payment'}: $${parseFloat(pagoExtra).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, 20, y);
   y += 6;
   doc.text(`${isEs ? 'Pago único' : 'Lump-sum payment'}: $${parseFloat(pagoUnico).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, 20, y);
@@ -78,7 +76,7 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.line(20, y, 190, y);
   y += 8;
 
-  doc.setTextColor(240, 242, 247);
+  doc.setTextColor(17, 24, 39);
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.text(isEs ? 'Comparación de Estrategias' : 'Strategy Comparison', 20, y);
@@ -88,9 +86,9 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.setFont('helvetica', 'normal');
 
   const cols = [
-    { label: isEs ? 'Sin Estrategia' : 'No Strategy', color: [244, 63, 94] as [number, number, number], meses: result.mesesRegular, interes: result.interesesRegular, ahorro: 0, orden: [] as string[] },
-    { label: isEs ? 'AVALANCHA' : 'AVALANCHE', color: [79, 124, 255] as [number, number, number], meses: result.mesesAcelerado, interes: result.interesesAcelerado, ahorro: result.dineroAhorrado, orden: result.ordenAvalanche },
-    { label: isEs ? 'BOLA DE NIEVE' : 'SNOWBALL', color: [6, 214, 160] as [number, number, number], meses: result.mesesSnowball, interes: result.interesesSnowball, ahorro: result.dineroAhorradoSnowball, orden: result.ordenSnowball },
+    { label: isEs ? 'Sin Estrategia' : 'No Strategy', color: [190, 18, 60] as [number, number, number], meses: result.mesesRegular, interes: result.interesesRegular, ahorro: 0, orden: [] as string[] },
+    { label: isEs ? 'AVALANCHA' : 'AVALANCHE', color: [37, 99, 235] as [number, number, number], meses: result.mesesAcelerado, interes: result.interesesAcelerado, ahorro: result.dineroAhorrado, orden: result.ordenAvalanche },
+    { label: isEs ? 'BOLA DE NIEVE' : 'SNOWBALL', color: [4, 120, 87] as [number, number, number], meses: result.mesesSnowball, interes: result.interesesSnowball, ahorro: result.dineroAhorradoSnowball, orden: result.ordenSnowball },
   ];
 
   cols.forEach((col, i) => {
@@ -99,15 +97,15 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
     doc.setFont('helvetica', 'bold');
     doc.text(col.label, x, y);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(136, 146, 164);
+    doc.setTextColor(75, 85, 99);
     doc.text(`${col.meses} ${isEs ? 'meses' : 'months'}`, x, y + 7);
     doc.text(`$${col.interes.toLocaleString('en-US', { maximumFractionDigits: 0 })} ${isEs ? 'interés' : 'interest'}`, x, y + 13);
     if (col.ahorro > 0) {
-      doc.setTextColor(6, 214, 160);
+      doc.setTextColor(4, 120, 87);
       doc.text(`${isEs ? 'Ahorras' : 'You save'} $${col.ahorro.toLocaleString('en-US', { maximumFractionDigits: 0 })}`, x, y + 19);
     }
     if (col.orden.length > 0) {
-      doc.setTextColor(136, 146, 164);
+      doc.setTextColor(75, 85, 99);
       doc.text(isEs ? 'Orden:' : 'Order:', x, y + 26);
       col.orden.forEach((nombre, j) => {
         doc.text(`${j + 1}. ${truncarTexto(doc, nombre, 50)}`, x, y + 32 + j * 6);
@@ -120,12 +118,12 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.setDrawColor(51, 65, 85);
   doc.line(20, y, 190, y);
   y += 8;
-  doc.setTextColor(245, 158, 11);
+  doc.setTextColor(180, 83, 9);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
   doc.text(isEs ? 'Recomendación' : 'Recommendation', 20, y);
   y += 6;
-  doc.setTextColor(136, 146, 164);
+  doc.setTextColor(75, 85, 99);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   const diff = result.dineroAhorrado - result.dineroAhorradoSnowball;
@@ -137,7 +135,7 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   y += lines.length * 5 + 8;
 
   if (result.capAlcanzado) {
-    doc.setTextColor(244, 63, 94);
+    doc.setTextColor(190, 18, 60);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
     const capText = isEs
@@ -151,7 +149,7 @@ async function exportarPDF(result: DebtResult, debts: Debt[], lang: string, pago
   doc.setDrawColor(51, 65, 85);
   doc.line(20, y, 190, y);
   y += 6;
-  doc.setTextColor(100, 110, 120);
+  doc.setTextColor(107, 114, 128);
   doc.setFontSize(7);
   const disc = isEs
     ? 'ScoreMotive es una herramienta educativa. Este informe no constituye asesoría financiera profesional. Consulta a un CFP antes de tomar decisiones financieras importantes.'
